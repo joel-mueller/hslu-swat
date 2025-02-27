@@ -1,0 +1,49 @@
+-J-Duser.language=
+-J-Duser.country=
+-html5
+@options
+@packages
+-classpath
+'/Users/joeldevelop/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar'
+-encoding
+'UTF-8'
+-overview
+'/Users/joeldevelop/hslu-swat/src/main/javadoc/overview.html'
+-package
+-sourcepath
+'/Users/joeldevelop/hslu-swat/src/main/java:/Users/joeldevelop/hslu-swat/target/generated-sources/annotations:/Users/joeldevelop/hslu-swat/src/main/javadoc'
+-author
+-bottom
+'Copyright &#169; 2025 <a href="https://www.hslu.ch/informatik/">Hochschule Luzern - Informatik</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/joeldevelop/hslu-swat/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'oop_maven_template 1.0.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'oop_maven_template 1.0.0-SNAPSHOT API'
+ch.hslu.demo
+/Users/joeldevelop/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar = 1723281306000
+/Users/joeldevelop/hslu-swat/src/main/java = 1492516178000
+/Users/joeldevelop/hslu-swat/target/generated-sources/annotations = 1740650403038
+/Users/joeldevelop/hslu-swat/src/main/javadoc/overview.html = 1708181080000
+/Users/joeldevelop/hslu-swat/src/main/javadoc = 1504964470000
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/tag-search-index.js = 1740650410736
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/overview-tree.html = 1740650410705
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/module-search-index.js = 1740650410734
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/index.html = 1740650410712
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/package-search-index.js = 1740650410734
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/index-all.html = 1740650410750
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/allpackages-index.html = 1740650410733
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/member-search-index.js = 1740650410735
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/overview-summary.html = 1740650410755
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/help-doc.html = 1740650410761
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/element-list = 1740650410659
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/search.html = 1740650410753
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/allclasses-index.html = 1740650410729
+/Users/joeldevelop/hslu-swat/target/reports/apidocs/type-search-index.js = 1740650410735
