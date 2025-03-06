@@ -1,5 +1,5 @@
 #
-# Copyright 2024 Hochschule Luzern Informatik.
+# Copyright 2025 Hochschule Luzern Informatik.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,8 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM amazoncorretto:21.0.4-alpine
+FROM amazoncorretto:21.0.6-alpine
+LABEL maintainer="Roland Gisler <roland.gisler@hslu.ch>, HSLU Informatik"
+LABEL version="1.0.0"
+LABEL description="Simple Java project template with CI/CD."
 RUN adduser -D worker
 USER worker
+WORKDIR /opt/demo
 CMD ["java","-jar","/opt/demo/oop_maven_template.jar"]
 COPY target/oop_maven_template.jar /opt/demo/oop_maven_template.jar

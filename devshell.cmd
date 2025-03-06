@@ -1,6 +1,6 @@
 @echo off
 
-rem Copyright 2024 Hochschule Luzern Informatik.
+rem Copyright 2025 Hochschule Luzern Informatik.
 rem
 rem Licensed under the Apache License, Version 2.0 (the "License");
 rem you may not use this file except in compliance with the License.

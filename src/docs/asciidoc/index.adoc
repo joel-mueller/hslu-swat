@@ -1,6 +1,6 @@
 = Dokumentation Beispiel
 Vorname, Name <vorname.name@hslu.ch>
-V0.0.1, 2024-09-07
+V0.0.1, 2025-02-07
 :imagesdir: ./images
 :toc:
 :toc-title: Inhaltsverzeichnis

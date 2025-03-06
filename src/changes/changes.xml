@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Copyright 2024 Roland Gisler, HSLU Informatik, Switzerland
+ * Copyright 2025 Roland Gisler, HSLU Informatik, Switzerland
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+<document xmlns="http://maven.apache.org/changes/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
     <properties>
         <title>Changes</title>
         <author email="roland.gisler@hslu.ch">Roland Gisler</author>
     </properties>
     <body>
+        <release version="5.4.0" date="2025-02-12" description="Minor Release für 25FS">
+            <action dev="zbgisler" type="update">
+                Changes Plugin neu konfiguriert, Ablage auf Default geändert.
+            </action>
+            <action dev="zbgisler" type="fix">
+                Dependencies und Plugins aktualisiert.
+            </action>
+        </release>
         <release version="5.3.0" date="2024-09-03" description="Minor Release für 24HS/2">
             <action dev="zbgisler" type="update">
                 Native-Plugin für GraalVM und Profile ergänzt.
