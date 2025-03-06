@@ -16,3 +16,13 @@ Library Management System:
 - CRUD Operationen für Bücher, Studenten und ausgeliehene Bücher
 - Check-in/check-out Funktion für ausgeliehene Bücher
 - Authentifizierung für Benutzer (Admin, Guest ect.) mit Rechten
+
+## Run Spring Boot
+
+```shell
+mvn spring-boot:run
+```
+
+```shell
+curl http://localhost:8080/api/hello
+```
