@@ -1,10 +1,14 @@
 package ch.hslu.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public final class Book {
+    @Id
     private final int id;
     private final String isbn;
     private final String title;
@@ -14,6 +18,18 @@ public final class Book {
     private final String imageUrlS;
     private final String imageUrlM;
     private final String imageUrlL;
+
+    public Book() {
+        this.id = 0;
+        this.isbn = "";
+        this.title = "";
+        this.author = "";
+        this.year = "";
+        this.publisher = "";
+        this.imageUrlS = "";
+        this.imageUrlM = "";
+        this.imageUrlL = "";
+    }
 
     public Book(final int id, String isbn, String title, String author, String year, String publisher, String imageUrlS, String imageUrlM, String imageUrlL) {
         this.id = id;
