@@ -20,11 +20,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ch.hslu</groupId>
-    <artifactId>oop_maven_template</artifactId>
+    <artifactId>LibOS</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>oop_maven_template</name>
+    <name>LibOS</name>
     <description>
         Projekt-Template für Java-Projekte an der HSLU. Details siehe unter Beschreibung.
     </description>
@@ -76,7 +76,7 @@
         <argLine>-Xms512m -Xmx1g -Xss10m</argLine>
 
         <!-- Hier ggf. andere Startklasse anpassen! -->
-        <jar.start.class>ch.hslu.demo.DemoApp</jar.start.class>
+        <jar.start.class>ch.hslu.api.Application</jar.start.class>
 
         <!-- Folgende Werte für SCM/User/Deployment/Docker anpassen! -->
         <scm.group.name>hslu/edu/bachelor-computer-science/somewhere</scm.group.name>
