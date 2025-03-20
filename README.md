@@ -26,3 +26,9 @@ mvn spring-boot:run
 ```shell
 curl http://localhost:8080/api/hello
 ```
+
+## Format Code
+
+```shell
+mvn formatter:format
+```

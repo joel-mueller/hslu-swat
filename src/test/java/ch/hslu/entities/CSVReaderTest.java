@@ -11,6 +11,7 @@ class CSVReaderTest {
     void testCSVReader() {
         List<Book> bookList = CSVReader.getBooks();
         assertEquals(bookList.size(), CSVReader.NUMBER_OF_ARTICLES);
-        assertEquals(bookList.get(100343), new Book(200343, "1563524872", "The Terrible Truth About Liberals", "", "", "", "", "", ""));
+        assertEquals(bookList.get(100343),
+                new Book(200343, "1563524872", "The Terrible Truth About Liberals", "", "", "", "", "", ""));
     }
 }

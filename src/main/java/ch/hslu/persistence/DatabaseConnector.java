@@ -22,7 +22,8 @@ public class DatabaseConnector {
     // TODO updateCustomer() deleteCustomer() addCustomer()
 
     public Book getBook(int id) {
-        return new Book(id, "123412341234", "Hello Title", "John", "2015", "Exlibris", "ImageUrl", "Image url medium", "Image url large");
+        return new Book(id, "123412341234", "Hello Title", "John", "2015", "Exlibris", "ImageUrl", "Image url medium",
+                "Image url large");
     }
 
     // TODO updateBook() deleteBook() (maybe also retire instead of delete) addBook()

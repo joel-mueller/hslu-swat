@@ -31,7 +31,8 @@ public final class Book {
         this.imageUrlL = "";
     }
 
-    public Book(final int id, String isbn, String title, String author, String year, String publisher, String imageUrlS, String imageUrlM, String imageUrlL) {
+    public Book(final int id, String isbn, String title, String author, String year, String publisher, String imageUrlS,
+            String imageUrlM, String imageUrlL) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -48,7 +49,8 @@ public final class Book {
         for (String item : listRaw) {
             list.add(removeQuotes(item));
         }
-        return new Book(id, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), list.get(5), list.get(6), list.get(7));
+        return new Book(id, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), list.get(5), list.get(6),
+                list.get(7));
     }
 
     public static String removeQuotes(String input) {
@@ -96,8 +98,10 @@ public final class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Book book)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Book book))
+            return false;
         return Objects.equals(isbn, book.isbn);
     }
 
@@ -108,10 +112,6 @@ public final class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+        return "Book{" + "id=" + id + ", isbn='" + isbn + '\'' + ", title='" + title + '\'' + '}';
     }
 }

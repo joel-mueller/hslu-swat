@@ -10,17 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookTest {
     @Test
     void testConstructorAndGetters() {
-        Book book = new Book(
-                1,
-                "978-3-16-148410-0",
-                "The Great Gatsby",
-                "F. Scott Fitzgerald",
-                "1925",
-                "Scribner",
-                "small.jpg",
-                "medium.jpg",
-                "large.jpg"
-        );
+        Book book = new Book(1, "978-3-16-148410-0", "The Great Gatsby", "F. Scott Fitzgerald", "1925", "Scribner",
+                "small.jpg", "medium.jpg", "large.jpg");
 
         assertEquals(1, book.getId());
         assertEquals("978-3-16-148410-0", book.getIsbn());
@@ -35,16 +26,8 @@ class BookTest {
 
     @Test
     void testGenerateFromList() {
-        List<String> bookData = List.of(
-                "978-3-16-148410-0",
-                "The Catcher in the Rye",
-                "J.D. Salinger",
-                "1951",
-                "Little, Brown and Company",
-                "small.jpg",
-                "medium.jpg",
-                "large.jpg"
-        );
+        List<String> bookData = List.of("978-3-16-148410-0", "The Catcher in the Rye", "J.D. Salinger", "1951",
+                "Little, Brown and Company", "small.jpg", "medium.jpg", "large.jpg");
 
         Book book = Book.generateFromList(2, bookData);
 
@@ -61,28 +44,10 @@ class BookTest {
 
     @Test
     void testEqualsAndHashCodeSameISBN() {
-        Book book1 = new Book(
-                1,
-                "978-3-16-148410-0",
-                "Book One",
-                "Author One",
-                "2000",
-                "Publisher One",
-                "small1.jpg",
-                "medium1.jpg",
-                "large1.jpg"
-        );
-        Book book2 = new Book(
-                2,
-                "978-3-16-148410-0",
-                "Book Two",
-                "Author Two",
-                "2010",
-                "Publisher Two",
-                "small2.jpg",
-                "medium2.jpg",
-                "large2.jpg"
-        );
+        Book book1 = new Book(1, "978-3-16-148410-0", "Book One", "Author One", "2000", "Publisher One", "small1.jpg",
+                "medium1.jpg", "large1.jpg");
+        Book book2 = new Book(2, "978-3-16-148410-0", "Book Two", "Author Two", "2010", "Publisher Two", "small2.jpg",
+                "medium2.jpg", "large2.jpg");
 
         assertEquals(book1, book2);
         assertEquals(book1.hashCode(), book2.hashCode());
@@ -90,28 +55,10 @@ class BookTest {
 
     @Test
     void testEqualsAndHashCodeDifferentISBN() {
-        Book book1 = new Book(
-                1,
-                "978-3-16-148410-0",
-                "Book One",
-                "Author One",
-                "2000",
-                "Publisher One",
-                "small1.jpg",
-                "medium1.jpg",
-                "large1.jpg"
-        );
-        Book book2 = new Book(
-                2,
-                "978-0-00-000000-0",
-                "Book Two",
-                "Author Two",
-                "2010",
-                "Publisher Two",
-                "small2.jpg",
-                "medium2.jpg",
-                "large2.jpg"
-        );
+        Book book1 = new Book(1, "978-3-16-148410-0", "Book One", "Author One", "2000", "Publisher One", "small1.jpg",
+                "medium1.jpg", "large1.jpg");
+        Book book2 = new Book(2, "978-0-00-000000-0", "Book Two", "Author Two", "2010", "Publisher Two", "small2.jpg",
+                "medium2.jpg", "large2.jpg");
 
         assertNotEquals(book1, book2);
         assertNotEquals(book1.hashCode(), book2.hashCode());
@@ -119,51 +66,24 @@ class BookTest {
 
     @Test
     void testEqualsWithDifferentObject() {
-        Book book = new Book(
-                1,
-                "978-3-16-148410-0",
-                "Book One",
-                "Author One",
-                "2000",
-                "Publisher One",
-                "small.jpg",
-                "medium.jpg",
-                "large.jpg"
-        );
+        Book book = new Book(1, "978-3-16-148410-0", "Book One", "Author One", "2000", "Publisher One", "small.jpg",
+                "medium.jpg", "large.jpg");
 
         assertNotEquals(book, "Some String");
     }
 
     @Test
     void testEqualsWithNull() {
-        Book book = new Book(
-                1,
-                "978-3-16-148410-0",
-                "Book One",
-                "Author One",
-                "2000",
-                "Publisher One",
-                "small.jpg",
-                "medium.jpg",
-                "large.jpg"
-        );
+        Book book = new Book(1, "978-3-16-148410-0", "Book One", "Author One", "2000", "Publisher One", "small.jpg",
+                "medium.jpg", "large.jpg");
 
         assertNotEquals(book, null);
     }
 
     @Test
     void testToString() {
-        Book book = new Book(
-                1,
-                "978-3-16-148410-0",
-                "Book Title",
-                "Book Author",
-                "2024",
-                "Book Publisher",
-                "small.jpg",
-                "medium.jpg",
-                "large.jpg"
-        );
+        Book book = new Book(1, "978-3-16-148410-0", "Book Title", "Book Author", "2024", "Book Publisher", "small.jpg",
+                "medium.jpg", "large.jpg");
 
         String expected = "Book{id=1, isbn='978-3-16-148410-0', title='Book Title'}";
         assertEquals(expected, book.toString());

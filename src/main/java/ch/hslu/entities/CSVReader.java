@@ -27,19 +27,20 @@ public class CSVReader {
                 String[] values = line.split(DELIMITER);
                 records.add(Book.generateFromList(currentId, Arrays.asList(values)));
                 currentId++;
-                count ++;
+                count++;
             }
         } catch (IOException e) {
             LOG.error("Error occurred while reading the file: {}", e.getMessage());
         }
-        if (count != NUMBER_OF_ARTICLES) throw new RuntimeException("Not all books could be scanned only {} books" + currentId);
+        if (count != NUMBER_OF_ARTICLES)
+            throw new RuntimeException("Not all books could be scanned only {} books" + currentId);
         LOG.info("All {} articles have been successfully initialized", NUMBER_OF_ARTICLES);
         return records;
     }
 
     public static void main(String[] args) {
         List<Book> books = CSVReader.getBooks();
-        for (int i = 0; i<books.size(); i++) {
+        for (int i = 0; i < books.size(); i++) {
             System.out.println(books.get(i));
         }
     }

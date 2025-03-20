@@ -18,4 +18,3 @@
  * Demo-Package.
  */
 package ch.hslu.persistence;
-

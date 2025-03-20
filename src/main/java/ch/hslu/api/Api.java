@@ -21,7 +21,8 @@ public class Api {
 
     @GetMapping("/testmysql")
     public @ResponseBody Iterable<Book> testMysql() {
-        Book b = new Book((int)(Math.random() * 1000000) + 1 , "test","test","test","test","test","test","test","test");
+        Book b = new Book((int) (Math.random() * 1000000) + 1, "test", "test", "test", "test", "test", "test", "test",
+                "test");
         bookRepository.save(b);
         return bookRepository.findAll();
     }
