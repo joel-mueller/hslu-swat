@@ -17,17 +17,42 @@
 
 ## Einführung und Ziele
 
+Das **LibOS**-Projekt ist ein Library Management System. Es wird im Modul der [HSLU](https://www.hslu.ch/de-ch/) *Software Architecture and Techniques* entwickelt. Das Ziel ist es, ein Backend zur Verwaltung von Büchern, Kunden und Kundinnen und deren Ausleihe bereitzustellen.
 
+Unser System basiert auf einer modernen Architektur mit **Java**, **Spring** und **Maven** als zentrale Technologien. Für die Speicherung der Daten wird entweder **MySQL** verwendet.
 
-### Anforderungen Übersicht
+### Ziele  
 
+Das Hauptziel von **LibOS** ist die Bereitstellung einer zuverlässigen und skalierbaren Lösung zur Verwaltung einer Bibliothek. Die Kernfunktionen umfassen:  
 
+1. **CRUD-Operationen** für Bücher und Benutzer (z. B. Studierende).
+2. **Check-in / Check-out**-Funktionalität für ausgeliehene Bücher.
+3. **Benutzer-Authentifizierung** mit differenzierten Rechten (z. B. Admin, Gast).
 
-### Qualitätsziele
+Durch die Implementierung dieser Funktionen wird sichergestellt, dass Bibliotheken ihre Bücher effizient verwalten und Benutzer unkompliziert auf das System zugreifen können.
 
+### Anforderungen Übersicht (Funktionale Anforderungen)
 
+- **Buchverwaltung:** CRUD-Operationen für Bücher (Erstellen, Lesen, Aktualisieren, Löschen).
+- **Benutzerverwaltung:** Verwaltung von Benutzern mit unterschiedlichen Rollen (Admin, Student, Gast).
+- **Ausleihverwaltung:** Möglichkeit zur Buchausleihe und -rückgabe mit Check-in/Check-out-Funktion.
+- **Authentifizierung & Autorisierung:** Benutzer müssen sich anmelden, und ihre Rechte werden überprüft.
+- **Benachrichtigungen:** Erinnerungen für ausgeliehene Bücher, z. B. per E-Mail.
 
-### Stakeholders
+### Qualitätsziele (Nichtfunktionale Anforderungen)
+
+- **Wartbarkeit** – Klare Code-Struktur und Dokumentation zur einfachen Erweiterung.
+- **Skalierbarkeit:** Das System soll mit einer steigenden Anzahl von Büchern und Benutzern effizient umgehen können.
+- **Sicherheit:** Schutz von Benutzerdaten durch sichere Authentifizierung und Zugriffskontrollen.
+- **Performanz:** Schnelle Ladezeiten und reaktionsschnelle API-Abfragen.
+- **Zuverlässigkeit:** Hohe Verfügbarkeit des Systems durch robuste Architektur.
+
+#### Stakeholders
+
+- **Nutzer der Bibliothek** – Hauptnutzer des Systems, die Bücher ausleihen und zurückgeben.
+- **Bibliothekare / Administratoren** – Verwalten die Bibliothek, verwalten Bücher und Benutzer.
+- **IT-Admin** – Verantwortlich für die Wartung und den Betrieb des Systems.
+- **Entwikler API** - Möchten möglichst viel lernen.
 
 <!-- TODO: Randbedingungen, welche bei der Lösung eingehalten werden müssen, z.B. bestehende Systeme, welche unterstützt werden müssen oder spezielle Anforderungen, welche den Lösungsraum einschränken. -->
 
