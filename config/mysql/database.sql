@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `borrow_records` (
 	`customer_id` VARCHAR(50),
 	`date_borrowed` DATE,
 	`duration_days` INT,
+	`borrowed` TINYINT(1),
 	PRIMARY KEY (`uuid`),
 	FOREIGN KEY (`book_id`) REFERENCES books(`id`),
 	FOREIGN KEY (`customer_id`) REFERENCES customers(`id`)
