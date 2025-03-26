@@ -7,12 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+// TODO interface machen damit man die DB Mocken kann
 public class DatabaseConnector {
     private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
     private static final String USER = "myuser";
@@ -44,7 +43,7 @@ public class DatabaseConnector {
         return "Failed to connect to database";
     }
 
-    public Customer getCustomer(int id) {
+    public Customer getCustomer(UUID id) {
         return new Customer(id, "Max", "Mustermann", "Stree1", "3355");
     }
 
@@ -57,11 +56,11 @@ public class DatabaseConnector {
 
     // TODO updateBook() deleteBook() (maybe also retire instead of delete) addBook()
 
-    public Record getRecord(UUID Id) {
-        return new BorrowRecord(UUID.randomUUID(), 12, 10, LocalDate.now(), Period.ofMonths(3), false);
-    }
-
     public List<BorrowRecord> getRecords(RecordFilter filter) {
         return new ArrayList<BorrowRecord>();
+    }
+
+    public boolean addBorrowRecord(BorrowRecord record) {
+        return true;
     }
 }
