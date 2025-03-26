@@ -1,5 +1,7 @@
 package ch.hslu.api;
 
+import ch.hslu.business.Library;
+import ch.hslu.persistence.Database;
 import ch.hslu.persistence.DatabaseConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class Api {
-    private final DatabaseConnector connector;
+    private final Database connector;
+    private final Library libary;
     private static final Logger LOG = LoggerFactory.getLogger(Api.class);
 
     public Api() {
         this.connector = new DatabaseConnector();
+        this.libary = new Library(this.connector);
     }
 
     @GetMapping("/hello")

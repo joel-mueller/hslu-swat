@@ -4,29 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Book {
-    private final int id;
-    private final String isbn;
-    private final String title;
-    private final String author;
-    private final String year;
-    private final String publisher;
-    private final String imageUrlS;
-    private final String imageUrlM;
-    private final String imageUrlL;
-
-    public Book(final int id, String isbn, String title, String author, String year, String publisher, String imageUrlS,
-            String imageUrlM, String imageUrlL) {
-        this.id = id;
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.year = year;
-        this.publisher = publisher;
-        this.imageUrlS = imageUrlS;
-        this.imageUrlM = imageUrlM;
-        this.imageUrlL = imageUrlL;
-    }
+public record Book(int id, String isbn, String title, String author, String year, String publisher, String imageUrlS,
+        String imageUrlM, String imageUrlL) {
 
     public static Book generateFromList(int id, List<String> listRaw) {
         List<String> list = new ArrayList<>();
@@ -42,42 +21,6 @@ public final class Book {
             return null;
         }
         return input.replace("\"", "").replace("'", "");
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public String getImageUrlS() {
-        return imageUrlS;
-    }
-
-    public String getImageUrlM() {
-        return imageUrlM;
-    }
-
-    public String getImageUrlL() {
-        return imageUrlL;
     }
 
     @Override

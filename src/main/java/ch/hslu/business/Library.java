@@ -1,7 +1,7 @@
 package ch.hslu.business;
 
 import ch.hslu.entities.BorrowRecord;
-import ch.hslu.persistence.DatabaseConnector;
+import ch.hslu.persistence.Database;
 import ch.hslu.persistence.RecordFilter;
 
 import java.time.LocalDate;
@@ -9,11 +9,12 @@ import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
-public class Libary {
-    private final DatabaseConnector connector;
-    private static final Period BURROW_TIME = Period.ofDays(90);
+public class Library {
+    private final Database connector;
+    private static final Period BORROW_TIME = Period.ofDays(90);
+    private static final int FRANCS_OVERDUE_PER_DAY = 2;
 
-    public Libary(DatabaseConnector connector) {
+    public Library(Database connector) {
         this.connector = connector;
     }
 
@@ -27,7 +28,7 @@ public class Libary {
         if (isOverdue(records)) {
             return false;
         }
-        BorrowRecord newRecord = new BorrowRecord(UUID.randomUUID(), idBook, customerId, LocalDate.now(), BURROW_TIME,
+        BorrowRecord newRecord = new BorrowRecord(UUID.randomUUID(), idBook, customerId, LocalDate.now(), BORROW_TIME,
                 false);
         return connector.addBorrowRecord(newRecord);
     }
@@ -53,5 +54,15 @@ public class Libary {
     }
 
     // return book, check if user has fine on this book
-
+    public int returnBook(UUID userId, int idBook) {
+        RecordFilter filter = new RecordFilter.Builder().idBook(idBook).idCustomer(userId).build();
+        List<BorrowRecord> records = this.connector.getRecords(filter);
+        if (records.isEmpty()) {
+            return 0;
+        }
+        BorrowRecord record = records.getFirst();
+        connector.updateBorrowRecord(new BorrowRecord(record.id(), record.idBook(), record.idCustomer(),
+                record.dateBorrowed(), record.duration(), true));
+        return calculateOverdue(record) * FRANCS_OVERDUE_PER_DAY;
+    }
 }

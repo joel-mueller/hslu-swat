@@ -7,7 +7,7 @@ import java.util.UUID;
 public class RecordFilter {
     private final UUID id;
     private final Integer idBook;
-    private final Integer idCustomer;
+    private final UUID idCustomer;
     private final LocalDate dateBorrowed;
     private final Period duration;
     private final Boolean returned;
@@ -24,7 +24,7 @@ public class RecordFilter {
     public static class Builder {
         private UUID id;
         private Integer idBook;
-        private Integer idCustomer;
+        private UUID idCustomer;
         private LocalDate dateBorrowed;
         private Period duration;
         private Boolean returned;
@@ -39,7 +39,7 @@ public class RecordFilter {
             return this;
         }
 
-        public Builder idCustomer(Integer idCustomer) {
+        public Builder idCustomer(UUID idCustomer) {
             this.idCustomer = idCustomer;
             return this;
         }

@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.UUID;
 
 // TODO interface machen damit man die DB Mocken kann
-public class DatabaseConnector {
+public class DatabaseConnector implements Database {
     private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
     private static final String USER = "myuser";
     private static final String PASSWORD = "secret";
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseConnector.class);
-
     private Connection connection;
 
     public DatabaseConnector() {
@@ -29,6 +28,7 @@ public class DatabaseConnector {
         }
     }
 
+    @Override
     public String testDB() {
         String query = "SELECT NOW()";
         try (Statement stmt = this.connection.createStatement();
@@ -43,12 +43,14 @@ public class DatabaseConnector {
         return "Failed to connect to database";
     }
 
+    @Override
     public Customer getCustomer(UUID id) {
         return new Customer(id, "Max", "Mustermann", "Stree1", "3355");
     }
 
     // TODO updateCustomer() deleteCustomer() addCustomer()
 
+    @Override
     public Book getBook(int id) {
         return new Book(id, "123412341234", "Hello Title", "John", "2015", "Exlibris", "ImageUrl", "Image url medium",
                 "Image url large");
@@ -56,11 +58,18 @@ public class DatabaseConnector {
 
     // TODO updateBook() deleteBook() (maybe also retire instead of delete) addBook()
 
+    @Override
     public List<BorrowRecord> getRecords(RecordFilter filter) {
         return new ArrayList<BorrowRecord>();
     }
 
+    @Override
     public boolean addBorrowRecord(BorrowRecord record) {
+        return true;
+    }
+
+    @Override
+    public boolean updateBorrowRecord(BorrowRecord record) {
         return true;
     }
 }

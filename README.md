@@ -32,3 +32,11 @@ curl http://localhost:8080/api/hello
 ```shell
 mvn formatter:format
 ```
+
+## TODO
+
+- [ ] Datebank anbindung machen
+- [ ] Mock datenbank erstellen für tests
+- [ ] Tests libary
+- [ ] User authentication
+- 

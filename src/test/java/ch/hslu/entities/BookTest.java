@@ -13,15 +13,15 @@ class BookTest {
         Book book = new Book(1, "978-3-16-148410-0", "The Great Gatsby", "F. Scott Fitzgerald", "1925", "Scribner",
                 "small.jpg", "medium.jpg", "large.jpg");
 
-        assertEquals(1, book.getId());
-        assertEquals("978-3-16-148410-0", book.getIsbn());
-        assertEquals("The Great Gatsby", book.getTitle());
-        assertEquals("F. Scott Fitzgerald", book.getAuthor());
-        assertEquals("1925", book.getYear());
-        assertEquals("Scribner", book.getPublisher());
-        assertEquals("small.jpg", book.getImageUrlS());
-        assertEquals("medium.jpg", book.getImageUrlM());
-        assertEquals("large.jpg", book.getImageUrlL());
+        assertEquals(1, book.id());
+        assertEquals("978-3-16-148410-0", book.isbn());
+        assertEquals("The Great Gatsby", book.title());
+        assertEquals("F. Scott Fitzgerald", book.author());
+        assertEquals("1925", book.year());
+        assertEquals("Scribner", book.publisher());
+        assertEquals("small.jpg", book.imageUrlS());
+        assertEquals("medium.jpg", book.imageUrlM());
+        assertEquals("large.jpg", book.imageUrlL());
     }
 
     @Test
@@ -31,15 +31,15 @@ class BookTest {
 
         Book book = Book.generateFromList(2, bookData);
 
-        assertEquals(2, book.getId());
-        assertEquals("978-3-16-148410-0", book.getIsbn());
-        assertEquals("The Catcher in the Rye", book.getTitle());
-        assertEquals("J.D. Salinger", book.getAuthor());
-        assertEquals("1951", book.getYear());
-        assertEquals("Little, Brown and Company", book.getPublisher());
-        assertEquals("small.jpg", book.getImageUrlS());
-        assertEquals("medium.jpg", book.getImageUrlM());
-        assertEquals("large.jpg", book.getImageUrlL());
+        assertEquals(2, book.id());
+        assertEquals("978-3-16-148410-0", book.isbn());
+        assertEquals("The Catcher in the Rye", book.title());
+        assertEquals("J.D. Salinger", book.author());
+        assertEquals("1951", book.year());
+        assertEquals("Little, Brown and Company", book.publisher());
+        assertEquals("small.jpg", book.imageUrlS());
+        assertEquals("medium.jpg", book.imageUrlM());
+        assertEquals("large.jpg", book.imageUrlL());
     }
 
     @Test
