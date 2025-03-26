@@ -61,7 +61,7 @@ public class Library {
             return 0;
         }
         BorrowRecord record = records.getFirst();
-        connector.updateBorrowRecord(new BorrowRecord(record.id(), record.idBook(), record.idCustomer(),
+        connector.updateBorrowRecord(new BorrowRecord(record.id(), record.bookId(), record.customerId(),
                 record.dateBorrowed(), record.duration(), true));
         return calculateOverdue(record) * FRANCS_OVERDUE_PER_DAY;
     }

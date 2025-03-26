@@ -66,7 +66,7 @@ public class RecordFilter {
 
     @Override
     public String toString() {
-        return "RecordFilter{" + "id=" + id + ", idBook=" + idBook + ", idCustomer=" + idCustomer + ", dateBorrowed="
+        return "RecordFilter{" + "id=" + id + ", bookId=" + idBook + ", customerId=" + idCustomer + ", dateBorrowed="
                 + dateBorrowed + ", duration=" + duration + ", returned=" + returned + '}';
     }
 }

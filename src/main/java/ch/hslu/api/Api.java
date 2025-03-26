@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class Api {
     private final Database connector;
-    private final Library libary;
+    private final Library library;
     private static final Logger LOG = LoggerFactory.getLogger(Api.class);
 
     public Api() {
         this.connector = new DatabaseConnector();
-        this.libary = new Library(this.connector);
+        this.library = new Library(this.connector);
     }
 
     @GetMapping("/hello")

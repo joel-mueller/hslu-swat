@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.UUID;
 
-public record BorrowRecord(UUID id, int idBook, UUID idCustomer, LocalDate dateBorrowed, Period duration,
-        boolean returned) {
+public record BorrowRecord(UUID id, int bookId, UUID customerId, LocalDate dateBorrowed, Period duration,
+                           boolean returned) {
 
 }
