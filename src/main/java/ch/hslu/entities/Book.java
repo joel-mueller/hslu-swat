@@ -15,18 +15,6 @@ public final class Book {
     private final String imageUrlM;
     private final String imageUrlL;
 
-    public Book() {
-        this.id = 0;
-        this.isbn = "";
-        this.title = "";
-        this.author = "";
-        this.year = "";
-        this.publisher = "";
-        this.imageUrlS = "";
-        this.imageUrlM = "";
-        this.imageUrlL = "";
-    }
-
     public Book(final int id, String isbn, String title, String author, String year, String publisher, String imageUrlS,
             String imageUrlM, String imageUrlL) {
         this.id = id;
