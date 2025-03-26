@@ -3,6 +3,8 @@ package ch.hslu.persistence;
 import ch.hslu.entities.Book;
 import ch.hslu.entities.BorrowRecord;
 import ch.hslu.entities.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,9 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class DatabaseConnector {
-    public DatabaseConnector() {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
+public class DatabaseConnector {
+    private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String USER = "myuser";
+    private static final String PASSWORD = "secret";
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseConnector.class);
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public DatabaseConnector() {
+        try (Connection conn = getConnection()) {
+            LOG.info("Connected to MySQL database successfully!");
+        } catch (SQLException e) {
+            LOG.error("Could not connect to database");
+        }
     }
 
     public Customer getCustomer(int id) {
