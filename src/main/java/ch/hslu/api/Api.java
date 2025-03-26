@@ -29,18 +29,6 @@ public class Api {
 
     @GetMapping("/test")
     public String testDB() {
-        String query = "SELECT NOW()";
-        try (Connection conn = DatabaseConnector.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
-
-            if (rs.next()) {
-                LOG.info("Current Database Time: {}", rs.getString(1));
-                return "Current Database Time: " + rs.getString(1);
-            }
-        } catch (SQLException e) {
-            LOG.error("Failed to connect to database");
-        }
-        return "Could not connect to database";
+        return connector.testDB();
     }
 }

@@ -6,15 +6,12 @@ import ch.hslu.entities.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseConnector {
     private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
@@ -22,16 +19,29 @@ public class DatabaseConnector {
     private static final String PASSWORD = "secret";
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseConnector.class);
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
+    private Connection connection;
 
     public DatabaseConnector() {
-        try (Connection conn = getConnection()) {
+        try {
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             LOG.info("Connected to MySQL database successfully!");
         } catch (SQLException e) {
             LOG.error("Could not connect to database");
         }
+    }
+
+    public String testDB() {
+        String query = "SELECT NOW()";
+        try (Statement stmt = this.connection.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                LOG.info("Current Database Time: {}", rs.getString(1));
+                return "Current Database Time: " + rs.getString(1);
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed to connect to database");
+        }
+        return "Failed to connect to database";
     }
 
     public Customer getCustomer(int id) {
