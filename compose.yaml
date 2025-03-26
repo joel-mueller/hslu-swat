@@ -9,6 +9,8 @@ services:
       MYSQL_USER: myuser
     ports:
       - '3306:3306'
+    volumes:
+      - ./config/mysql/database.sql:/docker-entrypoint-initdb.d/database.sql:ro
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
