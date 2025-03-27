@@ -35,8 +35,12 @@ mvn formatter:format
 
 ## TODO
 
-- [ ] Datebank anbindung machen
+- [x] Code Formatter eingebaut
+- [ ] Datebank anbindung fertig machen
 - [ ] Mock datenbank erstellen für tests
-- [ ] Tests libary
-- [ ] User authentication
-- 
+- [ ] Tests libary (joel)
+- [ ] Refactoring libary gemäss feedback (joel)
+- [ ] User authifizierung
+- [ ] Mapper schreiben für datenbank
+- [ ] Paralellisierung
+- [ ] Container Tests

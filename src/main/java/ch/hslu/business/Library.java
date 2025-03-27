@@ -13,27 +13,23 @@ public class Library {
     private final Database connector;
     private static final Period BORROW_TIME = Period.ofDays(90);
     private static final int FRANCS_OVERDUE_PER_DAY = 2;
+    private static final int MAX_NUMBER_OF_BOOKS = 4;
 
     public Library(Database connector) {
         this.connector = connector;
     }
 
-    // borrow book, check if user has already 5 books borrowed and no fine
     public boolean borrowBook(UUID customerId, int idBook) {
         RecordFilter filter = new RecordFilter.Builder().id(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
-        if (records.size() > 4) {
-            return false;
-        }
-        if (isOverdue(records)) {
-            return false;
-        }
+        if (records.size() > MAX_NUMBER_OF_BOOKS) return false;
+        if (isOverdue(records)) return false;
         BorrowRecord newRecord = new BorrowRecord(UUID.randomUUID(), idBook, customerId, LocalDate.now(), BORROW_TIME,
-                false);
+                false); // builder 
         return connector.addBorrowRecord(newRecord);
     }
 
-    private static boolean isOverdue(List<BorrowRecord> records) {
+    private static boolean isOverdue(List<BorrowRecord> records) { // stream machen
         int overdueSum = 0;
         for (BorrowRecord r : records) {
             overdueSum += calculateOverdue(r);
@@ -41,7 +37,7 @@ public class Library {
         return overdueSum == 0;
     }
 
-    private static int calculateOverdue(BorrowRecord record) {
+    private static int calculateOverdue(BorrowRecord record) { // rename 
         LocalDate dateBorrowed = record.dateBorrowed();
         Period length = record.duration();
         LocalDate dueDate = dateBorrowed.plus(length);
@@ -54,7 +50,7 @@ public class Library {
     }
 
     // return book, check if user has fine on this book
-    public int returnBook(UUID userId, int idBook) {
+    public int returnBook(UUID userId, int idBook) { // rename und return value ist nicht optimal
         RecordFilter filter = new RecordFilter.Builder().idBook(idBook).idCustomer(userId).build();
         List<BorrowRecord> records = this.connector.getRecords(filter);
         if (records.isEmpty()) {
