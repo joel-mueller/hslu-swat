@@ -4,10 +4,11 @@ import ch.hslu.entities.BorrowRecord;
 import ch.hslu.persistence.Database;
 import ch.hslu.persistence.RecordFilter;
 
-import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.UUID;
+
+import static ch.hslu.entities.BorrowRecord.calculateOverdue;
 
 public class Library {
     private final Database connector;
@@ -19,46 +20,27 @@ public class Library {
         this.connector = connector;
     }
 
+    // TODO String zurück geben mit response für api
     public boolean borrowBook(UUID customerId, int idBook) {
         RecordFilter filter = new RecordFilter.Builder().id(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
-        if (records.size() > MAX_NUMBER_OF_BOOKS) return false;
-        if (isOverdue(records)) return false;
-        BorrowRecord newRecord = new BorrowRecord(UUID.randomUUID(), idBook, customerId, LocalDate.now(), BORROW_TIME,
-                false); // builder 
-        return connector.addBorrowRecord(newRecord);
+        if (records.size() > MAX_NUMBER_OF_BOOKS)
+            return false;
+        if (records.stream().mapToInt(BorrowRecord::calculateOverdue).sum() == 0)
+            return false;
+        return connector.addBorrowRecord(new BorrowRecord.Builder().bookId(idBook).customerId(customerId).build());
     }
 
-    private static boolean isOverdue(List<BorrowRecord> records) { // stream machen
-        int overdueSum = 0;
-        for (BorrowRecord r : records) {
-            overdueSum += calculateOverdue(r);
-        }
-        return overdueSum == 0;
-    }
-
-    private static int calculateOverdue(BorrowRecord record) { // rename 
-        LocalDate dateBorrowed = record.dateBorrowed();
-        Period length = record.duration();
-        LocalDate dueDate = dateBorrowed.plus(length);
-        LocalDate today = LocalDate.now();
-        if (today.isAfter(dueDate)) {
-            Period overduePeriod = Period.between(dueDate, today);
-            return overduePeriod.getDays();
-        }
-        return 0;
-    }
-
-    // return book, check if user has fine on this book
-    public int returnBook(UUID userId, int idBook) { // rename und return value ist nicht optimal
+    // TODO String zurück geben mit response für api
+    public int returnBook(UUID userId, int idBook) {
         RecordFilter filter = new RecordFilter.Builder().idBook(idBook).idCustomer(userId).build();
         List<BorrowRecord> records = this.connector.getRecords(filter);
         if (records.isEmpty()) {
             return 0;
         }
         BorrowRecord record = records.getFirst();
-        connector.updateBorrowRecord(new BorrowRecord(record.id(), record.bookId(), record.customerId(),
-                record.dateBorrowed(), record.duration(), true));
+        record.setReturned(true);
+        connector.updateBorrowRecord(record);
         return calculateOverdue(record) * FRANCS_OVERDUE_PER_DAY;
     }
 }

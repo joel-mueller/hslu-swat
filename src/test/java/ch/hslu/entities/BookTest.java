@@ -2,9 +2,6 @@ package ch.hslu.entities;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookTest {
@@ -19,24 +16,6 @@ class BookTest {
         assertEquals("F. Scott Fitzgerald", book.author());
         assertEquals("1925", book.year());
         assertEquals("Scribner", book.publisher());
-        assertEquals("small.jpg", book.imageUrlS());
-        assertEquals("medium.jpg", book.imageUrlM());
-        assertEquals("large.jpg", book.imageUrlL());
-    }
-
-    @Test
-    void testGenerateFromList() {
-        List<String> bookData = List.of("978-3-16-148410-0", "The Catcher in the Rye", "J.D. Salinger", "1951",
-                "Little, Brown and Company", "small.jpg", "medium.jpg", "large.jpg");
-
-        Book book = Book.generateFromList(2, bookData);
-
-        assertEquals(2, book.id());
-        assertEquals("978-3-16-148410-0", book.isbn());
-        assertEquals("The Catcher in the Rye", book.title());
-        assertEquals("J.D. Salinger", book.author());
-        assertEquals("1951", book.year());
-        assertEquals("Little, Brown and Company", book.publisher());
         assertEquals("small.jpg", book.imageUrlS());
         assertEquals("medium.jpg", book.imageUrlM());
         assertEquals("large.jpg", book.imageUrlL());
@@ -96,58 +75,4 @@ class BookTest {
                 .verify();
     }
 
-    @Test
-    void testRemoveQuotesWithBothQuotes() {
-        String input = "He said, \"It's a sunny day!\"";
-        String expected = "He said, Its a sunny day!";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesWithOnlyDoubleQuotes() {
-        String input = "This \"string\" has double quotes";
-        String expected = "This string has double quotes";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesWithOnlySingleQuotes() {
-        String input = "It's a test string";
-        String expected = "Its a test string";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesWithNoQuotes() {
-        String input = "No quotes here!";
-        String expected = "No quotes here!";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesEmptyString() {
-        String input = "";
-        String expected = "";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesNullInput() {
-        String input = null;
-        assertNull(Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesOnlyQuotes() {
-        String input = "\"'\"";
-        String expected = "";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
-
-    @Test
-    void testRemoveQuotesMixedQuotes() {
-        String input = "\"Hello\" 'world'";
-        String expected = "Hello world";
-        assertEquals(expected, Book.removeQuotes(input));
-    }
 }

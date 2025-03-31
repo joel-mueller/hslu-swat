@@ -51,10 +51,7 @@ public class DatabaseConnector implements Database {
             stmt.setString(1, id.toString());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Customer(id,
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("street"),
+                return new Customer(id, rs.getString("first_name"), rs.getString("last_name"), rs.getString("street"),
                         rs.getString("zip_code"));
             } else {
                 return null;
@@ -74,15 +71,9 @@ public class DatabaseConnector implements Database {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Book(rs.getInt("id"),
-                        rs.getString("isbn"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getString("year"),
-                        rs.getString("publisher"),
-                        rs.getString("imageUrlS"),
-                        rs.getString("imageUrlM"),
-                        rs.getString("imageUrlL"));
+                return new Book(rs.getInt("id"), rs.getString("isbn"), rs.getString("title"), rs.getString("author"),
+                        rs.getString("year"), rs.getString("publisher"), rs.getString("imageUrlS"),
+                        rs.getString("imageUrlM"), rs.getString("imageUrlL"));
             } else {
                 return null;
             }
@@ -103,13 +94,14 @@ public class DatabaseConnector implements Database {
     public boolean addBorrowRecord(BorrowRecord record) {
         PreparedStatement stmt;
         try {
-            stmt = connection.prepareStatement("INSERT INTO borrow_records(uuid, book_id, customer_id, date_borrowed, duration_days, borrowed) VALUES(?,?,?,?,?,?)");
-            stmt.setString(1, record.id().toString());
-            stmt.setInt(2, record.bookId());
-            stmt.setString(3, record.customerId().toString());
-            stmt.setString(4, record.dateBorrowed().toString());
-            stmt.setInt(5, record.duration().getDays());
-            stmt.setBoolean(6, record.returned());
+            stmt = connection.prepareStatement(
+                    "INSERT INTO borrow_records(uuid, book_id, customer_id, date_borrowed, duration_days, borrowed) VALUES(?,?,?,?,?,?)");
+            stmt.setString(1, record.getId().toString());
+            stmt.setInt(2, record.getBookId());
+            stmt.setString(3, record.getCustomerId().toString());
+            stmt.setString(4, record.getDateBorrowed().toString());
+            stmt.setInt(5, record.getDuration().getDays());
+            stmt.setBoolean(6, record.isReturned());
             return stmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -120,13 +112,14 @@ public class DatabaseConnector implements Database {
     public boolean updateBorrowRecord(BorrowRecord record) {
         PreparedStatement stmt;
         try {
-            stmt = connection.prepareStatement("UPDATE borrow_records SET book_id = ?, customer_id ?, date_borrowed = ?, duration = ?, returned = ? WHERE id = ?");
-            stmt.setInt(1, record.bookId());
-            stmt.setString(2, record.customerId().toString());
-            stmt.setString(3, record.dateBorrowed().toString());
-            stmt.setInt(4, record.duration().getDays());
-            stmt.setBoolean(5, record.returned());
-            stmt.setString(6, record.id().toString());
+            stmt = connection.prepareStatement(
+                    "UPDATE borrow_records SET book_id = ?, customer_id ?, date_borrowed = ?, duration = ?, returned = ? WHERE id = ?");
+            stmt.setInt(1, record.getBookId());
+            stmt.setString(2, record.getCustomerId().toString());
+            stmt.setString(3, record.getDateBorrowed().toString());
+            stmt.setInt(4, record.getDuration().getDays());
+            stmt.setBoolean(5, record.isReturned());
+            stmt.setString(6, record.getId().toString());
             return stmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

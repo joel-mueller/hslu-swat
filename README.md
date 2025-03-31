@@ -39,7 +39,8 @@ mvn formatter:format
 - [ ] Datebank anbindung fertig machen
 - [ ] Mock datenbank erstellen für tests
 - [ ] Tests libary (joel)
-- [ ] Refactoring libary gemäss feedback (joel)
+- [x] Refactoring libary gemäss feedback (joel)
+- [ ] Libary in api einbinden
 - [ ] User authifizierung
 - [ ] Mapper schreiben für datenbank
 - [ ] Paralellisierung

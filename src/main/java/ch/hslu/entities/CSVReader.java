@@ -25,7 +25,7 @@ public class CSVReader {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(DELIMITER);
-                records.add(Book.generateFromList(currentId, Arrays.asList(values)));
+                records.add(generateBooksFromList(currentId, Arrays.asList(values)));
                 currentId++;
                 count++;
             }
@@ -36,6 +36,22 @@ public class CSVReader {
             throw new RuntimeException("Not all books could be scanned only {} books" + currentId);
         LOG.info("All {} articles have been successfully initialized", NUMBER_OF_ARTICLES);
         return records;
+    }
+
+    public static Book generateBooksFromList(int id, List<String> listRaw) {
+        List<String> list = new ArrayList<>();
+        for (String item : listRaw) {
+            list.add(removeQuotes(item));
+        }
+        return new Book(id, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), list.get(5), list.get(6),
+                list.get(7));
+    }
+
+    public static String removeQuotes(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replace("\"", "").replace("'", "");
     }
 
     public static void main(String[] args) {
