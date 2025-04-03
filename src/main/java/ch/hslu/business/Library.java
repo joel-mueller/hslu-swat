@@ -43,4 +43,5 @@ public class Library {
         connector.updateBorrowRecord(record);
         return calculateOverdue(record) * FRANCS_OVERDUE_PER_DAY;
     }
+
 }

@@ -1,7 +1,11 @@
 package ch.hslu.entities;
 
+import ch.hslu.persistence.RecordFilter;
+
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.UUID;
 
 public class BorrowRecord {
@@ -103,4 +107,23 @@ public class BorrowRecord {
         }
         return 0;
     }
+
+    public boolean filter(RecordFilter filter) {
+        if (filter.getId() != null && !Objects.equals(filter.getId(), this.id))
+            return false;
+        if (filter.getIdBook() != null && !Objects.equals(filter.getIdBook(), Integer.valueOf(this.bookId)))
+            return false;
+        if (filter.getIdCustomer() != null && !Objects.equals(filter.getIdCustomer(), this.customerId))
+            return false;
+        if (filter.getDateBorrowedBefore() != null && this.dateBorrowed.isAfter(filter.getDateBorrowedBefore()))
+            return false;
+        if (filter.getDateBorrowedAfter() != null && this.dateBorrowed.isBefore(filter.getDateBorrowedAfter()))
+            return false;
+        if (filter.getLongerThen() != null && this.duration.minus(filter.getLongerThen()).getDays() > 0)
+            return false;
+        if (filter.getShorterThen() != null && this.duration.minus(filter.getShorterThen()).getDays() < 0)
+            return false;
+        return true;
+    }
+
 }

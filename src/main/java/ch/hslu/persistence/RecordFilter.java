@@ -8,16 +8,20 @@ public class RecordFilter {
     private final UUID id;
     private final Integer idBook;
     private final UUID idCustomer;
-    private final LocalDate dateBorrowed;
-    private final Period duration;
+    private final LocalDate dateBorrowedBefore;
+    private final LocalDate dateBorrowedAfter;
+    private final Period longerThen;
+    private final Period shorterThen;
     private final Boolean returned;
 
     private RecordFilter(Builder builder) {
         this.id = builder.id;
         this.idBook = builder.idBook;
         this.idCustomer = builder.idCustomer;
-        this.dateBorrowed = builder.dateBorrowed;
-        this.duration = builder.duration;
+        this.dateBorrowedBefore = builder.dateBorrowedBefore;
+        this.dateBorrowedAfter = builder.dateBorrowedAfter;
+        this.shorterThen = builder.shorterThen;
+        this.longerThen = builder.longerThen;
         this.returned = builder.returned;
     }
 
@@ -25,8 +29,10 @@ public class RecordFilter {
         private UUID id;
         private Integer idBook;
         private UUID idCustomer;
-        private LocalDate dateBorrowed;
-        private Period duration;
+        private LocalDate dateBorrowedBefore;
+        private LocalDate dateBorrowedAfter;
+        private Period longerThen;
+        private Period shorterThen;
         private Boolean returned;
 
         public Builder id(UUID id) {
@@ -44,13 +50,13 @@ public class RecordFilter {
             return this;
         }
 
-        public Builder dateBorrowed(LocalDate dateBorrowed) {
-            this.dateBorrowed = dateBorrowed;
+        public Builder dateBorrowedBefore(LocalDate dateBorrowed) {
+            this.dateBorrowedBefore = dateBorrowed;
             return this;
         }
 
         public Builder duration(Period duration) {
-            this.duration = duration;
+            this.shorterThen = duration;
             return this;
         }
 
@@ -64,9 +70,41 @@ public class RecordFilter {
         }
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public Integer getIdBook() {
+        return idBook;
+    }
+
+    public UUID getIdCustomer() {
+        return idCustomer;
+    }
+
+    public LocalDate getDateBorrowedBefore() {
+        return dateBorrowedBefore;
+    }
+
+    public Period getShorterThen() {
+        return shorterThen;
+    }
+
+    public Boolean getReturned() {
+        return returned;
+    }
+
+    public LocalDate getDateBorrowedAfter() {
+        return dateBorrowedAfter;
+    }
+
+    public Period getLongerThen() {
+        return longerThen;
+    }
+
     @Override
     public String toString() {
         return "RecordFilter{" + "id=" + id + ", bookId=" + idBook + ", customerId=" + idCustomer + ", dateBorrowed="
-                + dateBorrowed + ", duration=" + duration + ", returned=" + returned + '}';
+                + dateBorrowedBefore + ", duration=" + shorterThen + ", returned=" + returned + '}';
     }
 }
