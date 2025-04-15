@@ -28,10 +28,21 @@ curl http://localhost:8080/api/hello
 ```
 
 ## Format Code
+Note: The Formatter is also built in the `mvn package` command, so you dont need to run this a lot
 
 ```shell
 mvn formatter:format
 ```
+
+## Run SonarQube
+
+- start the sonar qube conainers in the directory of the project with `docker compose -f sonar.yaml up -d`
+- open `http://localhost:9001/` and create a token on the website and copy it
+- create a `sonar.env` file where you store the key like this `SONAR_TOKEN=<your-secret-token>`
+- run the `sonar.sh` script
+- see the latest changes on the site
+
+I used following [article](https://medium.com/@denis.verkhovsky/sonarqube-with-docker-compose-complete-tutorial-2aaa8d0771d4) for how to install it.
 
 ## TODO
 

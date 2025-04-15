@@ -19,3 +19,4 @@
 /.dccache
 /.vscode
 /.fleet/
+*.env
