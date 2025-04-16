@@ -24,10 +24,14 @@ public class Library {
     public boolean borrowBook(UUID customerId, int idBook) {
         RecordFilter filter = new RecordFilter.Builder().id(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
-        if (records.size() > MAX_NUMBER_OF_BOOKS)
+        if (records.size() > MAX_NUMBER_OF_BOOKS) {
+            System.out.println("customer has too many books");
             return false;
-        if (records.stream().mapToInt(BorrowRecord::calculateOverdue).sum() == 0)
+        }
+        if (records.stream().mapToInt(BorrowRecord::calculateOverdue).sum() == 0) {
+            System.out.println("customer has overdue");
             return false;
+        }
         return connector.addBorrowRecord(new BorrowRecord.Builder().bookId(idBook).customerId(customerId).build());
     }
 

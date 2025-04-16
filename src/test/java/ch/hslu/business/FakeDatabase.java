@@ -8,24 +8,27 @@ import ch.hslu.persistence.RecordFilter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class FakeDatabase implements Database {
-    private List<Customer> customerList;
-    private List<Book> bookList;
-    private List<BorrowRecord> borrowRecordList;
+    private final List<Customer> customerList;
+    private final List<Book> bookList;
+    private final List<BorrowRecord> borrowRecordList;
+    private final UUID customerMaxBooksNothingOverdueUUID = UUID.randomUUID();
+    private final UUID customerNotMaxBooksOverdueUUID = UUID.randomUUID();
+    private final UUID customerNotMaxBooksNothingOverdueUUID = UUID.randomUUID();
+    private final UUID customerMaxBooksBooksOverdueUUID = UUID.randomUUID();
 
     public FakeDatabase() {
-        UUID customerMaxBooksNothingOverdueUUID = UUID.randomUUID();
-        UUID customerNotMaxBooksOverdueUUID = UUID.randomUUID();
-        UUID customerNotMaxBooksNothingOverdueUUID = UUID.randomUUID();
-        UUID customerMaxBooksBooksOverdueUUID = UUID.randomUUID();
+        Customer customer1 = new Customer(customerMaxBooksNothingOverdueUUID, "Hans", "Müller", "Grubenacker 7",
+                "4417");
+        Customer customer2 = new Customer(customerNotMaxBooksOverdueUUID, "Anna", "Schmidt", "Bachstraße 12", "5000");
+        Customer customer3 = new Customer(customerNotMaxBooksNothingOverdueUUID, "Peter", "Weber", "Wiesenweg 5",
+                "3002");
+        Customer customer4 = new Customer(customerMaxBooksBooksOverdueUUID, "Lisa", "Fischer", "Seestraße 9", "6023");
 
-        this.customerList = List.of(
-                new Customer(customerMaxBooksNothingOverdueUUID, "Hans", "Müller", "Grubenacker 7", "4417"),
-                new Customer(customerNotMaxBooksOverdueUUID, "Anna", "Schmidt", "Bachstraße 12", "5000"),
-                new Customer(customerNotMaxBooksNothingOverdueUUID, "Peter", "Weber", "Wiesenweg 5", "3002"),
-                new Customer(customerMaxBooksBooksOverdueUUID, "Lisa", "Fischer", "Seestraße 9", "6023"));
+        this.customerList = List.of(customer1, customer2, customer3, customer4);
 
         this.bookList = List.of(
                 new Book(1, "2342455344", "Harry Potter", "J.K. Rowling", "2010", "Ex Libris",
@@ -131,7 +134,28 @@ public class FakeDatabase implements Database {
     @Override
     public boolean updateBorrowRecord(BorrowRecord record) {
         List<BorrowRecord> records = getRecords(new RecordFilter.Builder().id(record.getId()).build());
-        // TODO funktionalität fertig machen
+        if (records.size() != 1) {
+            return false;
+        }
+        BorrowRecord previousRecord = records.getFirst();
+        this.borrowRecordList.remove(previousRecord);
+        this.borrowRecordList.add(record);
         return true;
+    }
+
+    public UUID getCustomerMaxBooksNothingOverdueUUID() {
+        return customerMaxBooksNothingOverdueUUID;
+    }
+
+    public UUID getCustomerNotMaxBooksOverdueUUID() {
+        return customerNotMaxBooksOverdueUUID;
+    }
+
+    public UUID getCustomerNotMaxBooksNothingOverdueUUID() {
+        return customerNotMaxBooksNothingOverdueUUID;
+    }
+
+    public UUID getCustomerMaxBooksBooksOverdueUUID() {
+        return customerMaxBooksBooksOverdueUUID;
     }
 }
