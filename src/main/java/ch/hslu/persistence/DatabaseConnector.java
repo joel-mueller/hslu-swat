@@ -63,6 +63,36 @@ public class DatabaseConnector implements Database {
         }
     }
 
+    public boolean updateCustomer(UUID id, Customer customer) {
+        PreparedStatement stmt;
+        try {
+            stmt = connection.prepareStatement("UPDATE customers SET first_name = ?, last_name = ?, street = ?, zip_code = ? WHERE id = ?");
+            stmt.setString(1, customer.firstName());
+            stmt.setString(2, customer.lastName());
+            stmt.setString(3, customer.street());
+            stmt.setString(4, customer.zipCode());
+            stmt.setString(5, id.toString());
+            return stmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean addCustomer(Customer customer) {
+        PreparedStatement stmt;
+        try {
+            stmt = connection.prepareStatement("INSERT INTO customers(id, first_name, last_name, street, zip_code) VALUES(?,?,?,?,?)");
+            stmt.setString(1, customer.id().toString());
+            stmt.setString(2, customer.firstName());
+            stmt.setString(3, customer.lastName());
+            stmt.setString(4, customer.street());
+            stmt.setString(5, customer.zipCode());
+            return stmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // TODO updateCustomer() deleteCustomer() addCustomer()
 
     @Override
