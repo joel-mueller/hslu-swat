@@ -192,16 +192,16 @@ class BorrowRecordTest {
 
     @Test
     void filter_durationLongerThan_match_returnsTrue() {
-        RecordFilter filter = new RecordFilter.Builder().shorterThen(Period.ofDays(29)) // less than borrowRecord
+        RecordFilter filter = new RecordFilter.Builder().longerThen(Period.ofDays(29)) // less than borrowRecord
                 .build();
-        assertTrue(borrowRecord.filter(filter));
+        assertFalse(borrowRecord.filter(filter));
     }
 
     @Test
     void filter_durationLongerThan_noMatch_returnsFalse() {
-        RecordFilter filter = new RecordFilter.Builder().shorterThen(Period.ofDays(35)) // more than borrowRecord
+        RecordFilter filter = new RecordFilter.Builder().longerThen(Period.ofDays(35)) // more than borrowRecord
                 .build();
-        assertFalse(borrowRecord.filter(filter));
+        assertTrue(borrowRecord.filter(filter));
     }
 
     @Test
