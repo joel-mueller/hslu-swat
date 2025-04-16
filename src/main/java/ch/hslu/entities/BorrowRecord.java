@@ -96,14 +96,24 @@ public class BorrowRecord {
         this.returned = returned;
     }
 
-    public static int calculateOverdue(BorrowRecord record) { // rename
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BorrowRecord record))
+            return false;
+        return Objects.equals(id, record.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    public static int calculateDaysOverdue(BorrowRecord record) {
         LocalDate dateBorrowed = record.getDateBorrowed();
-        Period length = record.getDuration();
-        LocalDate dueDate = dateBorrowed.plus(length);
+        LocalDate dueDate = dateBorrowed.plus(record.getDuration());
         LocalDate today = LocalDate.now();
         if (today.isAfter(dueDate)) {
-            Period overduePeriod = Period.between(dueDate, today);
-            return overduePeriod.getDays();
+            return (int) ChronoUnit.DAYS.between(dueDate, today);
         }
         return 0;
     }
@@ -111,7 +121,7 @@ public class BorrowRecord {
     public boolean filter(RecordFilter filter) {
         if (filter.getId() != null && !Objects.equals(filter.getId(), this.id))
             return false;
-        if (filter.getIdBook() != null && !Objects.equals(filter.getIdBook(), Integer.valueOf(this.bookId)))
+        if (filter.getIdBook() != null && !Objects.equals(filter.getIdBook(), this.bookId))
             return false;
         if (filter.getIdCustomer() != null && !Objects.equals(filter.getIdCustomer(), this.customerId))
             return false;

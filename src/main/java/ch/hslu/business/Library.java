@@ -8,7 +8,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
-import static ch.hslu.entities.BorrowRecord.calculateOverdue;
+import static ch.hslu.entities.BorrowRecord.calculateDaysOverdue;
 
 public class Library {
     private final Database connector;
@@ -24,11 +24,11 @@ public class Library {
     public boolean borrowBook(UUID customerId, int idBook) {
         RecordFilter filter = new RecordFilter.Builder().id(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
-        if (records.size() > MAX_NUMBER_OF_BOOKS) {
+        if (records.size() >= MAX_NUMBER_OF_BOOKS) {
             System.out.println("customer has too many books");
             return false;
         }
-        if (records.stream().mapToInt(BorrowRecord::calculateOverdue).sum() == 0) {
+        if (records.stream().mapToInt(BorrowRecord::calculateDaysOverdue).sum() != 0) {
             System.out.println("customer has overdue");
             return false;
         }
@@ -45,7 +45,7 @@ public class Library {
         BorrowRecord record = records.getFirst();
         record.setReturned(true);
         connector.updateBorrowRecord(record);
-        return calculateOverdue(record) * FRANCS_OVERDUE_PER_DAY;
+        return calculateDaysOverdue(record) * FRANCS_OVERDUE_PER_DAY;
     }
 
 }

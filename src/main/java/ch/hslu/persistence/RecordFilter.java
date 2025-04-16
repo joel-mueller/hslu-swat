@@ -55,8 +55,18 @@ public class RecordFilter {
             return this;
         }
 
-        public Builder duration(Period duration) {
+        public Builder dateBorrowedAfter(LocalDate dateBorrowed) {
+            this.dateBorrowedAfter = dateBorrowed;
+            return this;
+        }
+
+        public Builder shorterThen(Period duration) {
             this.shorterThen = duration;
+            return this;
+        }
+
+        public Builder longerThen(Period duration) {
+            this.longerThen = duration;
             return this;
         }
 
