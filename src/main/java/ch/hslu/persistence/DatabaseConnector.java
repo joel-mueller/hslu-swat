@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -87,7 +89,64 @@ public class DatabaseConnector implements Database {
 
     @Override
     public List<BorrowRecord> getRecords(RecordFilter filter) {
-        return new ArrayList<BorrowRecord>();
+        PreparedStatement stmt;
+        List<Object> parameters = new ArrayList<>();
+        String statementString = "SELECT * FROM borrow_records WHERE";
+        // Loop once to set the statement string
+        if (filter.getId() != null) {
+            statementString += " id = ?";
+            parameters.add(filter.getId().toString());
+        }
+        if (filter.getIdBook() != null) {
+            statementString += " book_id = ?";
+            parameters.add(filter.getIdBook());
+        }
+        if (filter.getIdCustomer() != null) {
+            statementString += " customer_id = ?";
+            parameters.add(filter.getIdCustomer().toString());
+        }
+        if (filter.getDateBorrowedBefore() != null) {
+            statementString += " date_borrowed < ?";
+            parameters.add(Date.valueOf(filter.getDateBorrowedBefore()));
+        }
+        if (filter.getDateBorrowedAfter() != null) {
+            statementString += " date_borrowed > ?";
+            parameters.add(Date.valueOf(filter.getDateBorrowedAfter()));
+        }
+        if (filter.getLongerThen() != null) {
+            statementString += " duration_days > ?";
+            parameters.add(filter.getLongerThen().getDays());
+        }
+        if (filter.getShorterThen() != null) {
+            statementString += " duration_days < ?";
+            parameters.add(filter.getShorterThen().getDays());
+        }
+        if (filter.getReturned() != null) {
+            statementString += " returned = ?";
+            parameters.add(filter.getReturned());
+        }
+
+        try {
+            stmt = connection.prepareStatement(statementString);
+            for (int i = 0; i < parameters.size(); i++) {
+                stmt.setObject(i + 1, parameters.get(i));
+            }
+            ResultSet rs = stmt.executeQuery();
+            List<BorrowRecord> recordList = new ArrayList<>();
+            while (rs.next()) {
+                recordList.add(new BorrowRecord.Builder()
+                        .id(UUID.fromString(rs.getString("id")))
+                        .bookId(rs.getInt("book_id"))
+                        .customerId(UUID.fromString(rs.getString("customer_id")))
+                        .dateBorrowed(LocalDate.parse(rs.getString("date_borrowed")))
+                        .duration(Period.ofDays(rs.getInt("durations_days")))
+                        .returned(rs.getBoolean("borrowed"))
+                        .build());
+            }
+            return recordList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

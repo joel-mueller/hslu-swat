@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `borrow_records` (
 	`uuid` VARCHAR(50) NOT NULL,
 	`book_id` INT,
 	`customer_id` VARCHAR(50),
-	`date_borrowed` VARCHAR(50),
+	`date_borrowed` DATE,
 	`duration_days` INT,
 	`returned` TINYINT(1),
 	PRIMARY KEY (`uuid`),
