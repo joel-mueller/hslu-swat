@@ -135,6 +135,11 @@ class LibraryTest {
     }
 
     @Test
+    void borrowBookCustomerOkBookOkBookNotAvailable() {
+        assertFalse(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 19));
+    }
+
+    @Test
     void borrowBookCustomerNotOkBookOk() {
         assertFalse(library.borrowBook(customerMaxBooksNothingOverdueUUID, 9));
     }
@@ -161,5 +166,22 @@ class LibraryTest {
 
     @Test
     void returnBook() {
+        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 12));
+        assertTrue(library.bookIsAvailable(12));
     }
+
+    @Test
+    void returnBookNotBorrowedFromCustomer() {
+        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 9));
+        assertTrue(library.bookIsAvailable(9));
+        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 18));
+        assertFalse(library.bookIsAvailable(18));
+    }
+
+    @Test
+    void returnBookOverdue() {
+        assertEquals(122, library.returnBook(customerNotMaxBooksOverdueUUID, 6));
+        assertTrue(library.bookIsAvailable(6));
+    }
+
 }
