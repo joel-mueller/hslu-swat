@@ -30,6 +30,15 @@ public class DatabaseConnector implements Database {
         }
     }
 
+    public DatabaseConnector(String url, String user, String password) {
+        try {
+            this.connection = DriverManager.getConnection(url, user, password);
+            LOG.info("Connected to MySQL database successfully!");
+        } catch (SQLException e) {
+            LOG.error("Could not connect to database");
+        }
+    }
+
     @Override
     public String testDB() {
         String query = "SELECT NOW()";
