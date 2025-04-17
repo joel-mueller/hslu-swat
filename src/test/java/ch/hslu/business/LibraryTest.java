@@ -4,7 +4,6 @@ import ch.hslu.entities.Book;
 import ch.hslu.entities.BorrowRecord;
 import ch.hslu.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -76,6 +75,8 @@ class LibraryTest {
                 new Book(19, "8524561239", "Dune", "Frank Herbert", "1965", "Heyne", "https://imagesmall.com/19",
                         "https://imagemedium.com/19", "https://imagebig.com/19"),
                 new Book(20, "1594872635", "Der Name der Rose", "Umberto Eco", "1980", "Hanser",
+                        "https://imagesmall.com/20", "https://imagemedium.com/20", "https://imagebig.com/20"),
+                new Book(21, "1594872635", "Der Name der Tulpe", "Umberto Eco", "1980", "Hanser",
                         "https://imagesmall.com/20", "https://imagemedium.com/20", "https://imagebig.com/20")));
 
         this.borrowRecordList = new ArrayList<>(List.of(
@@ -107,7 +108,20 @@ class LibraryTest {
                 new BorrowRecord.Builder().bookId(8).customerId(customerMaxBooksBooksOverdueUUID)
                         .dateBorrowed(LocalDate.now().minusDays(100)).build(),
                 new BorrowRecord.Builder().bookId(10).customerId(customerMaxBooksBooksOverdueUUID)
-                        .dateBorrowed(LocalDate.now().minusDays(60)).build()));
+                        .dateBorrowed(LocalDate.now().minusDays(60)).build(),
+
+                new BorrowRecord.Builder().bookId(7).customerId(customerNotMaxBooksOverdueUUID)
+                        .dateBorrowed(LocalDate.now().minusDays(100)).returned(true).build(),
+                new BorrowRecord.Builder().bookId(11).customerId(customerNotMaxBooksNothingOverdueUUID).returned(true)
+                        .build(),
+                new BorrowRecord.Builder().bookId(12).customerId(customerNotMaxBooksNothingOverdueUUID).returned(true)
+                        .build(),
+                new BorrowRecord.Builder().bookId(21).customerId(customerNotMaxBooksNothingOverdueUUID).returned(true)
+                        .build(),
+                new BorrowRecord.Builder().bookId(15).customerId(customerMaxBooksBooksOverdueUUID)
+                        .dateBorrowed(LocalDate.now().minusDays(60)).returned(true).build(),
+                new BorrowRecord.Builder().bookId(18).customerId(customerMaxBooksBooksOverdueUUID)
+                        .dateBorrowed(LocalDate.now().minusDays(91)).returned(true).build()));
 
         this.database = new FakeDatabase(this.customerList, this.bookList, this.borrowRecordList);
         this.library = new Library(database);
@@ -118,9 +132,19 @@ class LibraryTest {
         assertTrue(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 8));
     }
 
-    @Disabled
+    @Test
     void borrowBookCustomerNotOkBookOk() {
         assertFalse(library.borrowBook(customerMaxBooksNothingOverdueUUID, 8));
+    }
+
+    @Test
+    void borrowBookCustomerMaxBooksOverdue() {
+        assertFalse(library.borrowBook(customerMaxBooksBooksOverdueUUID, 8));
+    }
+
+    @Test
+    void borrowBookCustomerNotMaxBooksOverdue() {
+        assertFalse(library.borrowBook(customerNotMaxBooksOverdueUUID, 8));
     }
 
     @Test

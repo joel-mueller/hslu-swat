@@ -205,6 +205,18 @@ class BorrowRecordTest {
     }
 
     @Test
+    void filter_returned_false() {
+        RecordFilter filter = new RecordFilter.Builder().returned(true).build();
+        assertFalse(borrowRecord.filter(filter));
+    }
+
+    @Test
+    void filter_returned_true() {
+        RecordFilter filter = new RecordFilter.Builder().returned(false).build();
+        assertTrue(borrowRecord.filter(filter));
+    }
+
+    @Test
     void filter_allFieldsNull_returnsTrue() {
         RecordFilter filter = new RecordFilter.Builder().build();
         assertTrue(borrowRecord.filter(filter));

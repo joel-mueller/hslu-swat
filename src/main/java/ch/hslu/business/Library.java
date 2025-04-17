@@ -22,17 +22,21 @@ public class Library {
 
     // TODO String zurück geben mit response für api
     public boolean borrowBook(UUID customerId, int idBook) {
-        RecordFilter filter = new RecordFilter.Builder().id(customerId).returned(false).build();
+        RecordFilter filter = new RecordFilter.Builder().idCustomer(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
         if (records.size() >= MAX_NUMBER_OF_BOOKS) {
-            System.out.println("customer has too many books");
             return false;
         }
         if (records.stream().mapToInt(BorrowRecord::calculateDaysOverdue).sum() != 0) {
-            System.out.println("customer has overdue");
             return false;
         }
         return connector.addBorrowRecord(new BorrowRecord.Builder().bookId(idBook).customerId(customerId).build());
+    }
+
+    private boolean bookIsAvailable(int idBook) {
+        RecordFilter filter = new RecordFilter.Builder().idBook(idBook).returned(false).build();
+        List<BorrowRecord> records = connector.getRecords(filter);
+        return records.isEmpty();
     }
 
     // TODO String zurück geben mit response für api

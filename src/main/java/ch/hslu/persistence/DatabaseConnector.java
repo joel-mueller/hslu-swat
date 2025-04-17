@@ -66,7 +66,8 @@ public class DatabaseConnector implements Database {
     public boolean updateCustomer(UUID id, Customer customer) {
         PreparedStatement stmt;
         try {
-            stmt = connection.prepareStatement("UPDATE customers SET first_name = ?, last_name = ?, street = ?, zip_code = ? WHERE id = ?");
+            stmt = connection.prepareStatement(
+                    "UPDATE customers SET first_name = ?, last_name = ?, street = ?, zip_code = ? WHERE id = ?");
             stmt.setString(1, customer.firstName());
             stmt.setString(2, customer.lastName());
             stmt.setString(3, customer.street());
@@ -81,7 +82,8 @@ public class DatabaseConnector implements Database {
     public boolean addCustomer(Customer customer) {
         PreparedStatement stmt;
         try {
-            stmt = connection.prepareStatement("INSERT INTO customers(id, first_name, last_name, street, zip_code) VALUES(?,?,?,?,?)");
+            stmt = connection.prepareStatement(
+                    "INSERT INTO customers(id, first_name, last_name, street, zip_code) VALUES(?,?,?,?,?)");
             stmt.setString(1, customer.id().toString());
             stmt.setString(2, customer.firstName());
             stmt.setString(3, customer.lastName());
@@ -164,13 +166,10 @@ public class DatabaseConnector implements Database {
             ResultSet rs = stmt.executeQuery();
             List<BorrowRecord> recordList = new ArrayList<>();
             while (rs.next()) {
-                recordList.add(new BorrowRecord.Builder()
-                        .id(UUID.fromString(rs.getString("id")))
-                        .bookId(rs.getInt("book_id"))
-                        .customerId(UUID.fromString(rs.getString("customer_id")))
+                recordList.add(new BorrowRecord.Builder().id(UUID.fromString(rs.getString("id")))
+                        .bookId(rs.getInt("book_id")).customerId(UUID.fromString(rs.getString("customer_id")))
                         .dateBorrowed(LocalDate.parse(rs.getString("date_borrowed")))
-                        .duration(Period.ofDays(rs.getInt("durations_days")))
-                        .returned(rs.getBoolean("borrowed"))
+                        .duration(Period.ofDays(rs.getInt("durations_days"))).returned(rs.getBoolean("borrowed"))
                         .build());
             }
             return recordList;

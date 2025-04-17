@@ -133,6 +133,8 @@ public class BorrowRecord {
             return false;
         if (filter.getShorterThen() != null && this.duration.minus(filter.getShorterThen()).getDays() < 0)
             return false;
+        if (filter.getReturned() != null && filter.getReturned() != this.returned)
+            return false;
         return true;
     }
 
