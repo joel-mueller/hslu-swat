@@ -22,6 +22,8 @@ public class Library {
 
     // TODO String zurück geben mit response für api
     public boolean borrowBook(UUID customerId, int idBook) {
+        if (!bookIsAvailable(idBook))
+            return false;
         RecordFilter filter = new RecordFilter.Builder().idCustomer(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
         if (records.size() >= MAX_NUMBER_OF_BOOKS) {
@@ -33,7 +35,7 @@ public class Library {
         return connector.addBorrowRecord(new BorrowRecord.Builder().bookId(idBook).customerId(customerId).build());
     }
 
-    private boolean bookIsAvailable(int idBook) {
+    protected boolean bookIsAvailable(int idBook) {
         RecordFilter filter = new RecordFilter.Builder().idBook(idBook).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
         return records.isEmpty();

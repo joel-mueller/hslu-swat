@@ -118,6 +118,8 @@ class LibraryTest {
                         .build(),
                 new BorrowRecord.Builder().bookId(21).customerId(customerNotMaxBooksNothingOverdueUUID).returned(true)
                         .build(),
+                new BorrowRecord.Builder().bookId(9).customerId(customerNotMaxBooksNothingOverdueUUID).returned(true)
+                        .build(),
                 new BorrowRecord.Builder().bookId(15).customerId(customerMaxBooksBooksOverdueUUID)
                         .dateBorrowed(LocalDate.now().minusDays(60)).returned(true).build(),
                 new BorrowRecord.Builder().bookId(18).customerId(customerMaxBooksBooksOverdueUUID)
@@ -129,22 +131,32 @@ class LibraryTest {
 
     @Test
     void borrowBookCustomerOkBookOk() {
-        assertTrue(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 8));
+        assertTrue(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 9));
     }
 
     @Test
     void borrowBookCustomerNotOkBookOk() {
-        assertFalse(library.borrowBook(customerMaxBooksNothingOverdueUUID, 8));
+        assertFalse(library.borrowBook(customerMaxBooksNothingOverdueUUID, 9));
     }
 
     @Test
     void borrowBookCustomerMaxBooksOverdue() {
-        assertFalse(library.borrowBook(customerMaxBooksBooksOverdueUUID, 8));
+        assertFalse(library.borrowBook(customerMaxBooksBooksOverdueUUID, 9));
     }
 
     @Test
     void borrowBookCustomerNotMaxBooksOverdue() {
-        assertFalse(library.borrowBook(customerNotMaxBooksOverdueUUID, 8));
+        assertFalse(library.borrowBook(customerNotMaxBooksOverdueUUID, 9));
+    }
+
+    @Test
+    void bookIsAvailable() {
+        assertTrue(library.bookIsAvailable(9));
+    }
+
+    @Test
+    void bookIsNotAvailable() {
+        assertFalse(library.bookIsAvailable(15));
     }
 
     @Test
