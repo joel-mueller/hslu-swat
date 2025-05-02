@@ -47,12 +47,11 @@ I used following [article](https://medium.com/@denis.verkhovsky/sonarqube-with-d
 ## TODO
 
 - [x] Code Formatter eingebaut
-- [ ] Datebank anbindung fertig machen
-- [ ] Mock datenbank erstellen für tests
-- [ ] Tests libary (joel)
+- [x] Datebank anbindung fertig machen
+- [x] Mock datenbank erstellen für tests
+- [x] Tests libary (joel)
 - [x] Refactoring libary gemäss feedback (joel)
 - [ ] Libary in api einbinden
 - [ ] User authifizierung
-- [ ] Mapper schreiben für datenbank
 - [ ] Paralellisierung
 - [ ] Container Tests

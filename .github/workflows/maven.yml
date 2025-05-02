@@ -17,5 +17,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           architecture: x64
+
+      - name: Enable Docker
+        run: |
+          sudo systemctl start docker
+          docker info
+
       - name: Run Unit Tests
         run: mvn test
