@@ -18,8 +18,5 @@ jobs:
           java-version: '21'
           architecture: x64
 
-      - name: Check docker
-        run: docker info
-
       - name: Run Unit Tests
-        run: mvn package
+        run: mvn test
