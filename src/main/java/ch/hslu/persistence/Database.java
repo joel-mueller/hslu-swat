@@ -14,6 +14,10 @@ public interface Database {
 
     Book getBook(int id);
 
+    boolean addBook(Book book);
+
+    boolean addCustomer(Customer customer);
+
     List<BorrowRecord> getRecords(RecordFilter filter);
 
     boolean addBorrowRecord(BorrowRecord record);

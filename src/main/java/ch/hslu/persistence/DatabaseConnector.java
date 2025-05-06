@@ -98,7 +98,8 @@ public class DatabaseConnector implements Database {
             stmt.setString(3, customer.lastName());
             stmt.setString(4, customer.street());
             stmt.setString(5, customer.zipCode());
-            return stmt.execute();
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -121,6 +122,28 @@ public class DatabaseConnector implements Database {
                 return null;
             }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean addBook(Book book) {
+        PreparedStatement stmt;
+        try {
+            stmt = connection.prepareStatement(
+                    "INSERT INTO books(id, isbn, title, author, year, publisher, imageUrlS, imageUrlM, imageUrlL) VALUES(?,?,?,?,?,?,?,?,?)");
+            stmt.setString(1, String.valueOf(book.id()));
+            stmt.setString(2, book.isbn());
+            stmt.setString(3, book.title());
+            stmt.setString(4, book.author());
+            stmt.setString(5, book.year());
+            stmt.setString(6, book.publisher());
+            stmt.setString(7, book.imageUrlS());
+            stmt.setString(8, book.imageUrlM());
+            stmt.setString(9, book.imageUrlL());
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

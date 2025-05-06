@@ -36,6 +36,16 @@ public class FakeDatabase implements Database {
     }
 
     @Override
+    public boolean addBook(Book book) {
+        return false;
+    }
+
+    @Override
+    public boolean addCustomer(Customer customer) {
+        return false;
+    }
+
+    @Override
     public List<BorrowRecord> getRecords(RecordFilter filter) {
         List<BorrowRecord> filtered = this.borrowRecordList.stream().filter(record -> record.filter(filter)).toList();
         return List.copyOf(filtered);

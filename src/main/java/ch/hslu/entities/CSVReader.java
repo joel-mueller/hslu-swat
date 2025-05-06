@@ -16,6 +16,9 @@ public class CSVReader {
     public final static int MAX_ID = MIN_ID + NUMBER_OF_ARTICLES - 1;
     private static final Logger LOG = LoggerFactory.getLogger(CSVReader.class);
 
+    private CSVReader() {
+    }
+
     public static List<Book> getBooks() {
         List<Book> records = new ArrayList<>();
         int currentId = MIN_ID;
