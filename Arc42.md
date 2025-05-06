@@ -19,7 +19,7 @@
 
 Das **LibOS**-Projekt ist ein Library Management System. Es wird im Modul der [HSLU](https://www.hslu.ch/de-ch/) *Software Architecture and Techniques* entwickelt. Das Ziel ist es, ein Backend zur Verwaltung von Büchern, Kunden und Kundinnen und deren Ausleihe bereitzustellen.
 
-Unser System basiert auf einer modernen Architektur mit **Java**, **Spring** und **Maven** als zentrale Technologien. Für die Speicherung der Daten wird entweder **MySQL** verwendet.
+Unser System basiert auf einer modernen Architektur mit **Java**, **Spring** und **Maven** als zentrale Technologien. Als Datenbank wird **MySQL** verwendet.
 
 ### Ziele  
 
@@ -59,13 +59,17 @@ Durch die Implementierung dieser Funktionen wird sichergestellt, dass Bibliothek
 
 ## Randbedingungen
 
-```mermaid
-graph TB
-    User[📚 Mitarbeiter] -- "Bücher ausleihen & zurückgeben" --> LibOS[🖥️ LibOS System]
-    Admin[🔧 Administrator] -- "Verwaltet Benutzer & Bücher" --> LibOS
-    Guest[👤 Gast] -- "Sucht nach Büchern" --> LibOS
-    AuthService[🔑 Authentifizierungsdienst] -- "Benutzer-Anmeldung" --> LibOS
-```
+| **Kategorie**          | **Randbedingungen**                                                                                                                         |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| **Betriebssystem**     | Das Projekt muss auf gängigen Betriebssystemen wie **Linux, macOS und Windows** laufen.                                                     |
+| **Programmiersprache** | Die **Programmiersprache** für LibOS ist **Java**, zusammen mit **Maven** als Build Tool.                                                   |
+| **API Framework**      | Die API wird mit **Spring** realisiert, einem beliebten Java Framework, welches fortlaufend gewartet wird und eine grosse Community hat.    |
+| **Datenbank**          | Die **Datenbank** wird mit einer MySQL Datenbank realisiert.                                                                                |
+| **Modul SWAT**         | Das Projekt ist vom Modul Software Architecture and Techniques, welches im Herbstsemester 2025 an der Hochschule Luzern durchgeführt wurde. |
+| **Hosting**            | Die anwendung wird Lokal must lokal gehosted werden, und mit möglichst wenig aufwand auch auf einem Server Deployed werden können.          |
+| **Versionierung**      | Die Versionierung wird mit Git gemacht und der Source Code wird auf Github gehosted.                                                        |
+| **Dokumentation**      | Die Dokumentation wird in Markdown geschrieben und ist ebenfalls auf Github ansehbar.                                                       |
+| **Diagramme**          | Die Diagramme werden mit Mermaid gezeichnet, damit sie gut und einfach anpassbar sind.                                                      |
 
 <!-- TODO: Anhand von Datenflüssen beschreiben wie das zu entwickelnde System eingesetzt wird.
 Also Daten, welche Benutzer oder umgebende Systeme in das zu entwickelnde System einspeisen oder abgreifen.
@@ -74,33 +78,47 @@ Hinweis: Hier Benutzerschnittstellen und externe Schnittstellen mit Version spez
 
 ## Kontextabgrenzung
 
-### Business Context
+LibOS stellt ein zentrales Backend-System dar, das folgende Kernfunktionen intern abbildet:
+* Verwaltung von Medien (z. B. Bücher)
+* Verwaltung von Benutzerdaten (z. B. Studierende, Administratoren)
+* Abwicklung von Ausleihvorgängen (Check-in / Check-out)
+* Rechtebasierte Zugriffskontrolle und Autorisierung
 
-<!--
+### Systemkontext
 
-**<Diagram or Table>**
+Die nachfolgende Übersicht zeigt, welche Akteure und externen Systeme mit LibOS interagieren und welche Beziehungen bestehen:
 
-**<optionally: Explanation of external domain interfaces>**
+```mermaid
+graph TB
+    User[📚 Mitarbeiter] -- "Bücher ausleihen & zurückgeben" --> LibOS[🖥️ LibOS System]
+    Admin[🔧 Administrator] -- "Verwaltet Benutzer & Bücher" --> LibOS
+    Guest[👤 Gast] -- "Sucht nach Büchern" --> LibOS
+    AuthService[🔑 Authentifizierungsdienst] -- "Benutzer-Anmeldung" --> LibOS
+```
 
--->
+Beschreibung der Akteure
 
-### Technical Context
+| Akteur / System                 | Rolle im Kontext                                   |
+|---------------------------------|----------------------------------------------------|
+| 📚 **Mitarbeiter**              | Leiht Bücher aus und gibt sie zurück               |
+| 🔧 **Administrator**            | Verwalten Medien und Benutzer, überwachen Prozesse |
+| 👤 **Gast**                     | Recherchiert im Bibliothekskatalog                 |
+| 🔑 **Authentifizierungsdienst** | Führt Login-Vorgänge durch und liefert Identitäten |
 
-<!--
+### Abgrenzung zu anderen Systemen
 
-**<Diagram or Table>**
+Bestimmte Systeme und Dienste liegen **außerhalb des LibOS-Systems**, können jedoch über definierte Schnittstellen angebunden werden. Sie sind **nicht Teil des Projektumfangs**, werden aber bei Bedarf berücksichtigt:
 
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
-
--->
+* **Frontend (Benutzeroberfläche):** Die grafische Oberfläche wird separat entwickelt oder durch externe Systeme bereitgestellt. LibOS stellt ausschließlich Backend-Funktionalität bereit.
+* **Externe Medienkataloge:** LibOS beschränkt sich auf die Verwaltung lokaler Bestände; eine Anbindung an überregionale Kataloge ist nicht vorgesehen.
+* **Zahlungs- und Mahnsysteme:** Die Verwaltung von Gebühren oder Mahnungen gehört nicht zum Aufgabenbereich des Systems.
+* **Monitoring- und Logging-Infrastruktur:** Solche Dienste sind optional und werden nicht als zentraler Bestandteil der Systemarchitektur behandelt.
 
 <!-- TODO: Gewählter Lösungsansatz mit Begründung beschreiben. Gefragt ist eine sehr kurze Zusammenfassung. -->
 
-
 ## Lösungsstrategie
 
+Nach einer Planungsphase wurde zuerst die Infrastruktur vom Projekt eingerichtet. Dies beinhaltete zum Beispiel, das Maven Projekt aufzusetzen, grundlegende Dependencies einzubauen wie SLF4J zum Loggen oder JUnit zum Testen. Kurz darauf wurde auch die API mit Spring eingebunden und eine verbindung zu der Datenbank geschrieben. Am Anfang wurde das Testing etwas vernachlässigt. In der mitte vom Semester wurde aber mehr Fokus auf das Testing gelegt, und neue Features wurden erst implementiert, wenn die bisherige Testabdeckung gross genug ist.
 
 <!-- TODO: Beschreibung der Bausteinsicht hinzufügen. Für VSK obligatorisch.
 In Fall von VSK möchten wir alle vier Ebenen des C4-Modells sehen (Diagramme aber kein Code).
@@ -342,5 +360,5 @@ Hinweis: Hier die verwendeten Patterns (z.B. Adapter, Strategy) dokumentieren (j
 ## Glossar
 
 | Term | Definition |
-|-|-|
-| x | x |
+|------|------------|
+| x    | x          |
