@@ -56,8 +56,8 @@ public class CSVReader {
 
     public static void main(String[] args) {
         List<Book> books = CSVReader.getBooks();
-        for (int i = 0; i < books.size(); i++) {
-            System.out.println(books.get(i));
+        for (Book book : books) {
+            System.out.println(book);
         }
     }
 }

@@ -1,13 +1,16 @@
 package ch.hslu.api;
 
 import ch.hslu.business.Library;
+import ch.hslu.dto.BorrowBook;
+import ch.hslu.dto.ReturnBook;
 import ch.hslu.persistence.Database;
 import ch.hslu.persistence.DatabaseConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -30,4 +33,25 @@ public class Api {
     public String testDB() {
         return connector.testDB();
     }
+
+    @PostMapping("/borrow")
+    public ResponseEntity<?> borrowBook(@RequestParam UUID customerId, @RequestParam int bookId) {
+        try {
+            BorrowBook borrow = library.borrowBook(customerId, bookId);
+            return ResponseEntity.ok(borrow);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/return")
+    public ResponseEntity<?> returnBook(@RequestParam UUID customerId, @RequestParam int bookId) {
+        try {
+            ReturnBook returned = library.returnBook(customerId, bookId);
+            return ResponseEntity.ok(returned);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
