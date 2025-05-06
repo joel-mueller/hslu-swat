@@ -55,7 +55,8 @@ public class Api {
         Customer customer = new Customer(UUID.randomUUID(), request.firstName(), request.lastName(), request.street(),
                 request.zipCode());
         boolean successfully = connector.addCustomer(customer);
-        if (!successfully) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer could not got written to the database");
+        if (!successfully)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer could not got written to the database");
         return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
