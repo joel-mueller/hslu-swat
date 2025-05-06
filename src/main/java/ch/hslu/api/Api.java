@@ -2,6 +2,7 @@ package ch.hslu.api;
 
 import ch.hslu.business.Library;
 import ch.hslu.dto.BorrowBook;
+import ch.hslu.dto.CustomerRequest;
 import ch.hslu.dto.ReturnBook;
 import ch.hslu.entities.Book;
 import ch.hslu.entities.CSVReader;
@@ -50,12 +51,11 @@ public class Api {
     }
 
     @PostMapping("/customer")
-    public ResponseEntity<?> addCustomer(@RequestParam String firstName, @RequestParam String lastName,
-            @RequestParam String street, @RequestParam String zipCode) {
-        Customer customer = new Customer(UUID.randomUUID(), firstName, lastName, street, zipCode);
+    public ResponseEntity<?> addCustomer(@RequestBody CustomerRequest request) {
+        Customer customer = new Customer(UUID.randomUUID(), request.firstName(), request.lastName(), request.street(),
+                request.zipCode());
         boolean successfully = connector.addCustomer(customer);
-        if (!successfully)
-            return ResponseEntity.badRequest().body("Customer could not got written to the database");
+        if (!successfully) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer could not got written to the database");
         return ResponseEntity.status(HttpStatus.CREATED).body(customer);
     }
 
