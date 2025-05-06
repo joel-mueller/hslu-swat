@@ -35,7 +35,7 @@ class DatabaseConnectorTest {
     static Logger LOG = LoggerFactory.getLogger(DatabaseConnectorTest.class);
 
     @Container
-    static MySQLContainer<?> container = new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
+    static MySQLContainer<?> container = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.36"))
             .withDatabaseName(dbName).withUsername(dbUser).withPassword(password).withCopyFileToContainer(
                     MountableFile.forHostPath("config/mysql/database.sql"), "/docker-entrypoint-initdb.d/");
 
