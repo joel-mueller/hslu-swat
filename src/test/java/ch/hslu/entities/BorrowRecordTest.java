@@ -1,5 +1,6 @@
 package ch.hslu.entities;
 
+import ch.hslu.business.Library;
 import ch.hslu.persistence.RecordFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class BorrowRecordTest {
     @Test
     void testDefaultDuration() {
         BorrowRecord defaultDurationRecord = new BorrowRecord.Builder().bookId(bookId).customerId(customerId).build();
-        assertEquals(Period.ofDays(30), defaultDurationRecord.getDuration());
+        assertEquals(Library.BORROW_TIME, defaultDurationRecord.getDuration());
     }
 
     @Test

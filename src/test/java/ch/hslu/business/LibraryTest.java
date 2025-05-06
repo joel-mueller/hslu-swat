@@ -1,5 +1,7 @@
 package ch.hslu.business;
 
+import ch.hslu.dto.BorrowBook;
+import ch.hslu.dto.ReturnBook;
 import ch.hslu.entities.Book;
 import ch.hslu.entities.BorrowRecord;
 import ch.hslu.entities.Customer;
@@ -131,27 +133,37 @@ class LibraryTest {
 
     @Test
     void borrowBookCustomerOkBookOk() {
-        assertTrue(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 9));
+        BorrowBook borrowBook = new BorrowBook(customerNotMaxBooksNothingOverdueUUID, 9,
+                LocalDate.now().plus(Library.BORROW_TIME));
+        assertEquals(borrowBook, library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 9));
     }
 
     @Test
     void borrowBookCustomerOkBookOkBookNotAvailable() {
-        assertFalse(library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 19));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class,
+                () -> library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 19));
+        assertEquals("The book is not available for borrowing.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerNotOkBookOk() {
-        assertFalse(library.borrowBook(customerMaxBooksNothingOverdueUUID, 9));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class,
+                () -> library.borrowBook(customerMaxBooksNothingOverdueUUID, 9));
+        assertEquals("The customer has already borrowed the maximum number of books.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerMaxBooksOverdue() {
-        assertFalse(library.borrowBook(customerMaxBooksBooksOverdueUUID, 9));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class,
+                () -> library.borrowBook(customerMaxBooksBooksOverdueUUID, 9));
+        assertEquals("The customer has already borrowed the maximum number of books.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerNotMaxBooksOverdue() {
-        assertFalse(library.borrowBook(customerNotMaxBooksOverdueUUID, 9));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class,
+                () -> library.borrowBook(customerNotMaxBooksOverdueUUID, 9));
+        assertEquals("The customer has overdue books.", thrown.getMessage());
     }
 
     @Test
@@ -166,21 +178,29 @@ class LibraryTest {
 
     @Test
     void returnBook() {
-        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 12));
+        assertEquals(new ReturnBook(true, 0), library.returnBook(customerNotMaxBooksNothingOverdueUUID, 12));
         assertTrue(library.bookIsAvailable(12));
     }
 
     @Test
     void returnBookNotBorrowedFromCustomer() {
-        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 9));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class,
+                () -> library.returnBook(customerNotMaxBooksNothingOverdueUUID, 9));
+        assertEquals("No open book record for this book and this customer", thrown.getMessage());
         assertTrue(library.bookIsAvailable(9));
-        assertEquals(0, library.returnBook(customerNotMaxBooksNothingOverdueUUID, 18));
+    }
+
+    @Test
+    void returnBookNotBorrowedFromCustomer2() {
+        IllegalStateException thrown2 = assertThrows(IllegalStateException.class,
+                () -> library.returnBook(customerNotMaxBooksNothingOverdueUUID, 18));
+        assertEquals("No open book record for this book and this customer", thrown2.getMessage());
         assertFalse(library.bookIsAvailable(18));
     }
 
     @Test
     void returnBookOverdue() {
-        assertEquals(122, library.returnBook(customerNotMaxBooksOverdueUUID, 6));
+        assertEquals(new ReturnBook(true, 2), library.returnBook(customerNotMaxBooksOverdueUUID, 6));
         assertTrue(library.bookIsAvailable(6));
     }
 

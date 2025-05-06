@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DatabaseConnectorTest {
-
     static String dbName = "mydatabase";
     static String dbUser = "myuser";
     static String password = "secret";

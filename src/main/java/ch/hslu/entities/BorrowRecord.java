@@ -1,5 +1,6 @@
 package ch.hslu.entities;
 
+import ch.hslu.business.Library;
 import ch.hslu.persistence.RecordFilter;
 
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ public class BorrowRecord {
         private int bookId;
         private UUID customerId;
         private LocalDate dateBorrowed = LocalDate.now();
-        private Period duration = Period.ofDays(30);
+        private Period duration = Library.BORROW_TIME;
         private boolean returned = false;
 
         public Builder id(UUID id) {
