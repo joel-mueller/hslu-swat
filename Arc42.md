@@ -13,6 +13,11 @@
 - [Risiken und technische Schulden](#risiken-und-technische-schulden)
 - [Glossar](#glossar)
 
+## TODO vor Abgabe
+
+- [ ] C4 Diagramme anpassen auf neuer Tree
+- [ ] Systemkontext Diagramm ist nicht mehr aktuell (Black Box)
+
 <!-- TODO: Übersicht über die Problemstellung (Auftrag und Ziel). -->
 
 ## Einführung und Ziele
@@ -127,118 +132,91 @@ Zu allen Diagrammen wird eine Beschreibung erwartet. -->
 
 ## Bausteinsicht
 
-### Whitebox Overall System
+### Level 1
 
-<!--
-
-TODO: Vollständiges System in seinem Kontext beschreiben.
-
-_**<Overview Diagram>**_
-
-Motivation::
-
-_<text explanation>_
-
-Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
-
-Important Interfaces::
-_<Description of important interfaces>_
-
-
-#### <Name black box 1>
-
-_<Purpose/Responsibility>_
-
-_<Interface(s)>_
-
-_<(Optional) Quality/Performance Characteristics>_
-
-_<(Optional) Directory/File Location>_
-
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
-
-#### <Name black box 2>
-
-_<black box template>_
-
-#### <Name black box n>
-
-_<black box template>_
-
-#### <Name interface 1>
-
-...
-
-#### <Name interface m>
-
--->
+```mermaid
+C4Container
+  title C4 Model - Context Level
+  Person(user, "User", "Interacts with the system")
+  Person(admin, "admin", "Interacts with the system and sees database entry")
+  Enterprise_Boundary(b1, "LibOS") {
+    System(system, "LibOS", "The application")
+  }
+  Rel(user, system, "Uses")
+  Rel(admin, system, "Uses")
+```
 
 ### Level 2
 
-<!--
+```mermaid
+C4Container
+  title C4 Model - Context Level
+  Person(user, "User", "Interacts with the system")
+  Person(admin, "admin", "Interacts with the system and sees database entry")
 
-// TODO: Sicht auf Module, welche mehrere Komponenten umfassen (z.B. Teilsysteme oder Services).
+  Enterprise_Boundary(b1, "World Quiz") {
+    System(api, "API", "The api of the application")
+    System(business, "Business", "The business logic of the application")
+    SystemDb(database, "Database", "Stores books customer and records data")
+    System(databaseviewer, "Datatbase Viewer", "Database administration interface")
+  }
 
-#### White Box _<building block 1>_
-
-_<white box template>_
-
-#### White Box _<building block 2>_
-
-_<white box template>_
-
-...
-
-#### White Box _<building block m>_
-
-_<white box template>_
-
--->
+  Rel(user, api, "Uses")
+  Rel(admin, api, "Uses")
+  Rel(api, business, "Communicates with")
+  Rel(business, database, "Reads/Writes data")
+  Rel(admin, databaseviewer, "Administers")
+  Rel(databaseviewer, database, "Manages")
+```
 
 ### Level 3
 
-<!--
+```mermaid
+C4Component
+    title LibOS
 
-TODO: Pro Modul, welches mehrere Komponenten umfasst ein Unterkapitel: Sicht in das Modul (Teilsystem, Service, etc.) hinein (z.B. Komponentendiagram).
+    Enterprise_Boundary(b1, "LibOS") {
 
+        Container(Application, "Application", "Java Main App")
 
-#### White Box <_building block x.1_>
+        Enterprise_Boundary(api, "API Layer") {
+            Component(Api, "Api", "REST Endpoint")
+            Rel(Application, Api, "Starts")
+        }
 
-_<white box template>_
+        Enterprise_Boundary(business, "Business Logic") {
+            Component(Library, "Library", "Business Service")
+            Rel(Api, Library, "Uses")
+        }
 
-#### White Box <_building block x.2_>
+        Enterprise_Boundary(entities, "Entities") {
+            Component(Book, "Book", "Entity")
+            Component(BorrowRecord, "BorrowRecord", "Entity")
+            Component(Customer, "Customer", "Entity")
+            Component(CSVReader, "CSVReader", "Utility")
+            Rel(Library, Book, "Uses")
+            Rel(Library, BorrowRecord, "Uses")
+            Rel(Library, Customer, "Uses")
+            Rel(Library, CSVReader, "Uses")
+        }
 
-_<white box template>_
+        Enterprise_Boundary(persistence, "Persistence Layer") {
+            Component(Database, "Database", "Storage Abstraction")
+            Component(DatabaseConnector, "DatabaseConnector", "Connection Handler")
+            Component(RecordFilter, "RecordFilter", "Filter Utility")
+            Rel(Library, RecordFilter, "Uses")
+            Rel(DatabaseConnector, RecordFilter, "Uses")
+            Rel(Library, Database, "Injected")
+            Rel(Database, DatabaseConnector, "Implemented by")
+        }
 
-#### White Box <_building block y.1_>
-
-_<white box template>_
-
--->
-
-### Level 4
-
-<!--
-
-// TODO: Pro Komponente ein Unterkapitel: Sicht in die Komponente hinein (z.B. Klassen und Interfaces bei Java).
-// Hinweis: Nur für das Verständnis der Komponente relevante Details angeben.
-
-#### White Box <_building block x.1_>
-
-_<white box template>_
-
-#### White Box <_building block x.2_>
-
-_<white box template>_
-
-#### White Box <_building block y.1_>
-
-_<white box template>_
-
--->
+        Enterprise_Boundary(dto, "DTOs") {
+            Component(BorrowBook, "BorrowBook", "DTO")
+            Component(ReturnBook, "ReturnBook", "DTO")
+            Component(CustomerRequest, "CustomerRequest", "DTO")
+        }
+    }
+```
 
 <!-- TODO: Wo sinnvoll, Laufzeitsichten (z.B. mittels Sequenzdiagrammen) von interessanten oder kritischen Abläufen dokumentieren. -->
 
