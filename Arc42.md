@@ -182,6 +182,7 @@ C4Component
         Enterprise_Boundary(api, "API Layer") {
             Component(Api, "Api", "REST Endpoint")
             Rel(Application, Api, "Starts")
+            Rel(Api, Database, "Injected")
         }
 
         Enterprise_Boundary(business, "Business Logic") {
