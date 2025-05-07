@@ -223,6 +223,33 @@ C4Component
 
 ## Laufzeitsicht
 
+### Borrow Book
+```mermaid
+sequenceDiagram
+    actor User
+    User->>Api: POST /borrow
+    Api->>Library: borrowBook(request)
+    Library->>DatabaseConnector: getRecords(filter)
+    DatabaseConnector->>Library: list of current borrowed books
+    Library->>DatabaseConnector: addBorrowRecord(record)
+    DatabaseConnector->>Library: true
+    Library->>Api: response
+    Api->>User: HTTP 200 OK
+```
+
+### Return Book
+```mermaid
+sequenceDiagram
+    actor User
+    User->>Api: POST /return
+    Api->>Library: returnBook(request)
+    Library->>DatabaseConnector: getRecords(filter)
+    DatabaseConnector->>Library: list of current borrowed books
+    Library->>DatabaseConnector: updateBorrowRecord(record)
+    DatabaseConnector->>Library: true
+    Library->>Api: response
+    Api->>User: HTTP 200 OK
+```
 
 <!--
 
