@@ -1,7 +1,9 @@
 package ch.hslu.business;
 
-import ch.hslu.dto.BorrowBook;
-import ch.hslu.dto.ReturnBook;
+import ch.hslu.dto.BorrowBookRequest;
+import ch.hslu.dto.BorrowBookResponse;
+import ch.hslu.dto.ReturnBookRequest;
+import ch.hslu.dto.ReturnBookResponse;
 import ch.hslu.entities.Book;
 import ch.hslu.entities.BorrowRecord;
 import ch.hslu.entities.Customer;
@@ -133,36 +135,37 @@ class LibraryTest {
 
     @Test
     void borrowBookCustomerOkBookOk() {
-        BorrowBook borrowBook = new BorrowBook(customerNotMaxBooksNothingOverdueUUID, 9,
+        BorrowBookResponse borrowBookResponse = new BorrowBookResponse(customerNotMaxBooksNothingOverdueUUID, 9,
                 LocalDate.now().plus(Library.BORROW_TIME));
-        assertEquals(borrowBook, library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 9));
+        assertEquals(borrowBookResponse,
+                library.borrowBook(new BorrowBookRequest(customerNotMaxBooksNothingOverdueUUID.toString(), 9)));
     }
 
     @Test
     void borrowBookCustomerOkBookOkBookNotAvailable() {
         IllegalStateException thrown = assertThrows(IllegalStateException.class,
-                () -> library.borrowBook(customerNotMaxBooksNothingOverdueUUID, 19));
+                () -> library.borrowBook(new BorrowBookRequest(customerNotMaxBooksNothingOverdueUUID.toString(), 19)));
         assertEquals("The book is not available for borrowing.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerNotOkBookOk() {
         IllegalStateException thrown = assertThrows(IllegalStateException.class,
-                () -> library.borrowBook(customerMaxBooksNothingOverdueUUID, 9));
+                () -> library.borrowBook(new BorrowBookRequest(customerMaxBooksNothingOverdueUUID.toString(), 9)));
         assertEquals("The customer has already borrowed the maximum number of books.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerMaxBooksOverdue() {
         IllegalStateException thrown = assertThrows(IllegalStateException.class,
-                () -> library.borrowBook(customerMaxBooksBooksOverdueUUID, 9));
+                () -> library.borrowBook(new BorrowBookRequest(customerMaxBooksBooksOverdueUUID.toString(), 9)));
         assertEquals("The customer has already borrowed the maximum number of books.", thrown.getMessage());
     }
 
     @Test
     void borrowBookCustomerNotMaxBooksOverdue() {
         IllegalStateException thrown = assertThrows(IllegalStateException.class,
-                () -> library.borrowBook(customerNotMaxBooksOverdueUUID, 9));
+                () -> library.borrowBook(new BorrowBookRequest(customerNotMaxBooksOverdueUUID.toString(), 9)));
         assertEquals("The customer has overdue books.", thrown.getMessage());
     }
 
@@ -178,14 +181,15 @@ class LibraryTest {
 
     @Test
     void returnBook() {
-        assertEquals(new ReturnBook(true, 0), library.returnBook(customerNotMaxBooksNothingOverdueUUID, 12));
+        assertEquals(new ReturnBookResponse(true, 0),
+                library.returnBook(new ReturnBookRequest(customerNotMaxBooksNothingOverdueUUID.toString(), 12)));
         assertTrue(library.bookIsAvailable(12));
     }
 
     @Test
     void returnBookNotBorrowedFromCustomer() {
         IllegalStateException thrown = assertThrows(IllegalStateException.class,
-                () -> library.returnBook(customerNotMaxBooksNothingOverdueUUID, 9));
+                () -> library.returnBook(new ReturnBookRequest(customerNotMaxBooksNothingOverdueUUID.toString(), 9)));
         assertEquals("No open book record for this book and this customer", thrown.getMessage());
         assertTrue(library.bookIsAvailable(9));
     }
@@ -193,14 +197,15 @@ class LibraryTest {
     @Test
     void returnBookNotBorrowedFromCustomer2() {
         IllegalStateException thrown2 = assertThrows(IllegalStateException.class,
-                () -> library.returnBook(customerNotMaxBooksNothingOverdueUUID, 18));
+                () -> library.returnBook(new ReturnBookRequest(customerNotMaxBooksNothingOverdueUUID.toString(), 18)));
         assertEquals("No open book record for this book and this customer", thrown2.getMessage());
         assertFalse(library.bookIsAvailable(18));
     }
 
     @Test
     void returnBookOverdue() {
-        assertEquals(new ReturnBook(true, 2), library.returnBook(customerNotMaxBooksOverdueUUID, 6));
+        assertEquals(new ReturnBookResponse(true, 2),
+                library.returnBook(new ReturnBookRequest(customerNotMaxBooksOverdueUUID.toString(), 6)));
         assertTrue(library.bookIsAvailable(6));
     }
 

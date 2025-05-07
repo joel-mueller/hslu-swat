@@ -1,9 +1,7 @@
 package ch.hslu.api;
 
 import ch.hslu.business.Library;
-import ch.hslu.dto.BorrowBook;
-import ch.hslu.dto.CustomerRequest;
-import ch.hslu.dto.ReturnBook;
+import ch.hslu.dto.*;
 import ch.hslu.entities.Book;
 import ch.hslu.entities.CSVReader;
 import ch.hslu.entities.Customer;
@@ -61,9 +59,9 @@ public class Api {
     }
 
     @PostMapping("/borrow")
-    public ResponseEntity<?> borrowBook(@RequestParam UUID customerId, @RequestParam int bookId) {
+    public ResponseEntity<?> borrowBook(@RequestBody BorrowBookRequest request) {
         try {
-            BorrowBook borrow = library.borrowBook(customerId, bookId);
+            BorrowBookResponse borrow = library.borrowBook(request);
             return ResponseEntity.ok(borrow);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -71,9 +69,9 @@ public class Api {
     }
 
     @PostMapping("/return")
-    public ResponseEntity<?> returnBook(@RequestParam UUID customerId, @RequestParam int bookId) {
+    public ResponseEntity<?> returnBook(@RequestBody ReturnBookRequest request) {
         try {
-            ReturnBook returned = library.returnBook(customerId, bookId);
+            ReturnBookResponse returned = library.returnBook(request);
             return ResponseEntity.ok(returned);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

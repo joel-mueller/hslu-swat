@@ -1,7 +1,9 @@
 package ch.hslu.business;
 
-import ch.hslu.dto.BorrowBook;
-import ch.hslu.dto.ReturnBook;
+import ch.hslu.dto.BorrowBookRequest;
+import ch.hslu.dto.BorrowBookResponse;
+import ch.hslu.dto.ReturnBookRequest;
+import ch.hslu.dto.ReturnBookResponse;
 import ch.hslu.entities.BorrowRecord;
 import ch.hslu.persistence.Database;
 import ch.hslu.persistence.RecordFilter;
@@ -22,9 +24,10 @@ public class Library {
         this.connector = connector;
     }
 
-    public BorrowBook borrowBook(UUID customerId, int idBook) throws IllegalStateException {
-        if (!bookIsAvailable(idBook))
+    public BorrowBookResponse borrowBook(BorrowBookRequest request) throws IllegalStateException {
+        if (!bookIsAvailable(request.bookId()))
             throw new IllegalStateException("The book is not available for borrowing.");
+        UUID customerId = UUID.fromString(request.customerId());
         RecordFilter filter = new RecordFilter.Builder().idCustomer(customerId).returned(false).build();
         List<BorrowRecord> records = connector.getRecords(filter);
         if (records.size() >= MAX_NUMBER_OF_BOOKS) {
@@ -33,11 +36,11 @@ public class Library {
         if (records.stream().mapToInt(BorrowRecord::calculateDaysOverdue).sum() != 0) {
             throw new IllegalStateException("The customer has overdue books.");
         }
-        BorrowRecord record = new BorrowRecord.Builder().bookId(idBook).customerId(customerId).build();
+        BorrowRecord record = new BorrowRecord.Builder().bookId(request.bookId()).customerId(customerId).build();
         boolean written = connector.addBorrowRecord(record);
         if (!written)
             throw new IllegalStateException("Failed to write the borrow record to the database.");
-        return new BorrowBook(record.getCustomerId(), record.getBookId(),
+        return new BorrowBookResponse(record.getCustomerId(), record.getBookId(),
                 record.getDateBorrowed().plus(record.getDuration()));
     }
 
@@ -47,8 +50,10 @@ public class Library {
         return records.isEmpty();
     }
 
-    public ReturnBook returnBook(UUID userId, int idBook) throws IllegalStateException {
-        RecordFilter filter = new RecordFilter.Builder().idBook(idBook).idCustomer(userId).returned(false).build();
+    public ReturnBookResponse returnBook(ReturnBookRequest request) throws IllegalStateException {
+        UUID customerId = UUID.fromString(request.customerId());
+        RecordFilter filter = new RecordFilter.Builder().idBook(request.bookId()).idCustomer(customerId).returned(false)
+                .build();
         List<BorrowRecord> records = this.connector.getRecords(filter);
         if (records.isEmpty()) {
             throw new IllegalStateException("No open book record for this book and this customer");
@@ -58,7 +63,7 @@ public class Library {
         boolean written = connector.updateBorrowRecord(record);
         if (!written)
             throw new IllegalStateException("Failed to write the borrow record to the database.");
-        return new ReturnBook(true, calculateDaysOverdue(record) * FRANCS_OVERDUE_PER_DAY);
+        return new ReturnBookResponse(true, calculateDaysOverdue(record) * FRANCS_OVERDUE_PER_DAY);
     }
 
 }
