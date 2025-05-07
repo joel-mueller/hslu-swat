@@ -82,7 +82,8 @@ public class DatabaseConnector implements Database {
             stmt.setString(3, customer.street());
             stmt.setString(4, customer.zipCode());
             stmt.setString(5, id.toString());
-            return stmt.execute();
+            stmt.execute();
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -149,7 +150,7 @@ public class DatabaseConnector implements Database {
         }
     }
 
-    // TODO updateBook() deleteBook() (maybe also retire instead of delete) addBook()
+    // TODO updateBook() deleteBook() (maybe also retire instead of delete)
 
     @Override
     public List<BorrowRecord> getRecords(RecordFilter filter) {
@@ -158,7 +159,7 @@ public class DatabaseConnector implements Database {
         String statementString = "SELECT * FROM borrow_records WHERE";
         // Loop once to set the statement string
         if (filter.getId() != null) {
-            statementString += " id = ?";
+            statementString += " uuid = ?";
             parameters.add(filter.getId().toString());
         }
         if (filter.getIdBook() != null) {
@@ -198,10 +199,10 @@ public class DatabaseConnector implements Database {
             ResultSet rs = stmt.executeQuery();
             List<BorrowRecord> recordList = new ArrayList<>();
             while (rs.next()) {
-                recordList.add(new BorrowRecord.Builder().id(UUID.fromString(rs.getString("id")))
+                recordList.add(new BorrowRecord.Builder().id(UUID.fromString(rs.getString("uuid")))
                         .bookId(rs.getInt("book_id")).customerId(UUID.fromString(rs.getString("customer_id")))
                         .dateBorrowed(LocalDate.parse(rs.getString("date_borrowed")))
-                        .duration(Period.ofDays(rs.getInt("durations_days"))).returned(rs.getBoolean("borrowed"))
+                        .duration(Period.ofDays(rs.getInt("duration_days"))).returned(rs.getBoolean("returned"))
                         .build());
             }
             return recordList;
@@ -215,7 +216,7 @@ public class DatabaseConnector implements Database {
         PreparedStatement stmt;
         try {
             stmt = connection.prepareStatement(
-                    "INSERT INTO borrow_records(uuid, book_id, customer_id, date_borrowed, duration_days, borrowed) VALUES(?,?,?,?,?,?)");
+                    "INSERT INTO borrow_records(uuid, book_id, customer_id, date_borrowed, duration_days, returned) VALUES(?,?,?,?,?,?)");
             stmt.setString(1, record.getId().toString());
             stmt.setInt(2, record.getBookId());
             stmt.setString(3, record.getCustomerId().toString());
@@ -233,14 +234,15 @@ public class DatabaseConnector implements Database {
         PreparedStatement stmt;
         try {
             stmt = connection.prepareStatement(
-                    "UPDATE borrow_records SET book_id = ?, customer_id ?, date_borrowed = ?, duration = ?, returned = ? WHERE id = ?");
+                    "UPDATE borrow_records SET book_id = ?, customer_id ?, date_borrowed = ?, duration_days = ?, returned = ? WHERE id = ?");
             stmt.setInt(1, record.getBookId());
             stmt.setString(2, record.getCustomerId().toString());
             stmt.setString(3, record.getDateBorrowed().toString());
             stmt.setInt(4, record.getDuration().getDays());
             stmt.setBoolean(5, record.isReturned());
             stmt.setString(6, record.getId().toString());
-            return stmt.execute();
+            stmt.execute();
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
